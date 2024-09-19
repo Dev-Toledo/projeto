@@ -42,7 +42,7 @@ class _LoginViewState extends State<LoginView> {
                 //Icon(Icons.lunch_dining, size: 160, color: primaryColor),
                 Image(image: AssetImage("lib/images/logo.png")),
         
-                Text('Podrão Gourmet', style: TextStyle(fontSize: 30, color: primaryColor)),
+                Text('Login', style: TextStyle(fontSize: 30, color: primaryColor)),
                 
                 SizedBox(height: 30),
           
