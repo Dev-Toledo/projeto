@@ -81,30 +81,42 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
 
+                SizedBox(height: 10),
+                
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Checkbox(
-                      value: _rememberMe,
-                      onChanged: (bool value) {
-                        setState(() {
-                          _rememberMe = value;
-                        });
-                      },
-                      activeColor: Colors.blue,
-                      checkColor: Colors.white,
-                      fillColor: MaterialStateProperty.resolveWith((states) {
-                        return states.contains(MaterialState.selected)
-                            ? Colors.blue
-                            : null;
-                      }),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          
+                          value: _rememberMe,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _rememberMe = value!;
+                            });
+                          },
+                          activeColor: Colors.blue,
+                          checkColor: Colors.white,
+                          fillColor: WidgetStateProperty.resolveWith((states) {
+                            return states.contains(WidgetState.selected)
+                                ? Colors.blue
+                                : null;
+                          }),
+                        ),
+                        Text('Lembre de mim'),
+                      ],
                     ),
+
+                    SizedBox(width: 30),
+
                     TextButton(
                       onPressed: () {
                         // Código para tratar o clique em "Esqueci minha senha"
                       },
                       child: Text(
-                        "Esqueci minha senha",
+                        "Esqueci a senha",
                         style: TextStyle(
                           color: Colors.blue,
                           decoration: TextDecoration.underline,
