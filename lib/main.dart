@@ -7,7 +7,7 @@ void main() {
     DevicePreview(builder: (context) => const MainApp()),
   );
 }
-
+//git config --global user.name "Caio Toledo de Sousa"
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 // teste
