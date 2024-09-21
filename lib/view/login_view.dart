@@ -29,7 +29,9 @@ class _LoginViewState extends State<LoginView> {
 
       // Plano de Fundo
       body: Container(
-         decoration: BoxDecoration(
+
+        color: const Color.fromARGB(255, 240, 239, 234),
+         /*decoration: BoxDecoration(
           image: DecorationImage(
            image: AssetImage('lib/images/fundo2.png'),
           fit: BoxFit.cover,
@@ -38,7 +40,7 @@ class _LoginViewState extends State<LoginView> {
            BlendMode.dstATop,
           ),
          ),
-        ),
+        ),*/
 
 
         child: Form(
@@ -50,7 +52,7 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(height: 20),
 
               // Logo
-              Image(image: AssetImage("lib/images/logo2.png"),
+              Image(image: AssetImage("lib/images/logo4.png"),
                 width: 200,
               ),
 
@@ -173,13 +175,13 @@ class _LoginViewState extends State<LoginView> {
                 ],
               ),
 
-              SizedBox(height: 40),
+              SizedBox(height: 50),
 
               // Botão de Login
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(150, 60),
-                    backgroundColor: primaryColor,
+                    minimumSize: Size(300, 60),
+                    backgroundColor: const Color(0xFFF04A00),
                     foregroundColor: Colors.white,
                     textStyle: TextStyle(fontSize: 20),
                   ),
@@ -187,8 +189,27 @@ class _LoginViewState extends State<LoginView> {
                     // Validação
                     if(formKey.currentState!.validate()){}
                   },
-                  child: Text('Login')),
-            ]),
+                  child: Text('Login')
+                ),
+
+                SizedBox(height: 15),
+
+                // Botão Cadastro
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(300, 60),
+                    backgroundColor: const Color.fromARGB(255, 122, 124, 125),
+                    foregroundColor: Colors.white,
+                    textStyle: TextStyle(fontSize: 20),
+                  ),
+                  onPressed: () {
+                    // Validação
+                    if(formKey.currentState!.validate()){}
+                  },
+                  child: Text('Cadastrar')
+                ),
+              ]
+            ),
           ),
         ),
       ),
