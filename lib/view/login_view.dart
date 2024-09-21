@@ -24,11 +24,14 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+
+      // Plano de Fundo
       body: Container(
          decoration: BoxDecoration(
           image: DecorationImage(
-           image: AssetImage('lib/images/fundo3.png'),
+           image: AssetImage('lib/images/fundo2.png'),
           fit: BoxFit.cover,
           colorFilter: ColorFilter.mode(
           Colors.white.withOpacity(0.6),
@@ -36,14 +39,24 @@ class _LoginViewState extends State<LoginView> {
           ),
          ),
         ),
+
+
         child: Form(
           key: formKey,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(50, 60, 50, 60),
             child: Column(children: [
-              SizedBox(height: 50),
-              Image(image: AssetImage("lib/images/logo.png")),
+
+              SizedBox(height: 20),
+
+              // Logo
+              Image(image: AssetImage("lib/images/logo2.png"),
+                width: 200,
+              ),
+
               SizedBox(height: 30),
+
+              // Texto de identificação de tela => Login
               Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -51,11 +64,15 @@ class _LoginViewState extends State<LoginView> {
                       style: TextStyle(fontSize: 25, color: primaryColor)),
                 ],
               ),
+
               SizedBox(height: 5),
+
+              // Campo usuário ou e-mail
               TextFormField(
                 controller: txtValor1,
                 style: TextStyle(fontSize: 18),
                 decoration: InputDecoration(
+                  fillColor: Colors.white,
                   labelText: 'Usuário ou e-mail',
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12),
@@ -72,7 +89,10 @@ class _LoginViewState extends State<LoginView> {
                     return null;
                   },
               ),
+
               SizedBox(height: 20),
+
+              // Campo Senha
               TextFormField(
                 controller: txtValor2,
                 style: TextStyle(fontSize: 18),
@@ -104,13 +124,18 @@ class _LoginViewState extends State<LoginView> {
                     return null;
                   },
               ),
+
               SizedBox(height: 10),
+
+              // Lembre de mim e Esqueci a senha
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
+
+                      // Checkbox Lembre de mim
                       Checkbox(
                         value: _rememberMe,
                         onChanged: (bool? value) {
@@ -129,7 +154,10 @@ class _LoginViewState extends State<LoginView> {
                       Text('Lembre de mim'),
                     ],
                   ),
+
                   SizedBox(width: 30),
+
+                  // TextButton Esqueci a senha
                   TextButton(
                     onPressed: () {
                       // Código para tratar o clique em "Esqueci minha senha"
@@ -144,7 +172,10 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ],
               ),
+
               SizedBox(height: 40),
+
+              // Botão de Login
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(150, 60),
@@ -153,6 +184,7 @@ class _LoginViewState extends State<LoginView> {
                     textStyle: TextStyle(fontSize: 20),
                   ),
                   onPressed: () {
+                    // Validação
                     if(formKey.currentState!.validate()){}
                   },
                   child: Text('Login')),

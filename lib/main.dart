@@ -17,7 +17,7 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: 'login',
       routes: {
-        'login': (context) => LoginView(),
+        'login': (context) => const LoginView(),
       },
     );
   }
