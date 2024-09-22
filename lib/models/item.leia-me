@@ -1,0 +1,28 @@
+Explicação:
+Atributos:
+
+id: Identificador único do item.
+nome: Nome do item, como o nome de um prato ou bebida.
+preco: Preço unitário do item.
+descricao: Descrição opcional do item, como os ingredientes ou detalhes sobre o produto.
+Construtor:
+
+O construtor recebe os valores necessários para criar um item, como id, nome, e preco. A descricao é opcional e tem um valor padrão de uma string vazia.
+fromMap:
+
+Este método estático é utilizado para criar um objeto Item a partir de um mapa (por exemplo, os dados retornados do banco de dados SQLite).
+toMap:
+
+Este método converte um objeto Item em um mapa, o que é útil para salvar os dados no banco de dados.
+Como Usar:
+Exemplo de criação de um item:
+
+Item item = Item(id: 1, nome: 'Pizza Margherita', preco: 25.50, descricao: 'Deliciosa pizza com queijo e manjericão');
+Converter um item para um mapa:
+
+Map<String, dynamic> itemMap = item.toMap();
+Criar um item a partir de um mapa:
+
+Item itemFromDb = Item.fromMap(itemMap);
+Próximos Passos:
+Integre esse modelo Item com os repositórios, especialmente com a lógica de pedidos e itens de pedido no banco de dados.
