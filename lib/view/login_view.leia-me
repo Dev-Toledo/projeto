@@ -74,3 +74,32 @@ Correção do Checkbox: Removi a lógica incorreta e simplifiquei a implementaç
 Lógica para o botão de login: Adicionei um print para demonstrar onde você pode implementar a lógica de autenticação.
 
 Redirecionamento para a tela de cadastro: O botão "Cadastrar" agora redireciona para a tela de cadastro usando o Navigator.
+
+Alterações e Explicações:
+
+Login de Administrador:
+
+O login do administrador pode ser feito inserindo o nome de usuário "admin" e a senha "123456". Se essa combinação for detectada, o login será considerado válido.
+Se o usuário inserir um e-mail válido, a verificação segue o fluxo normal com a validação do e-mail e senha.
+Botão para Acessar Itens Sem Login:
+
+Um botão pequeno foi adicionado com o texto "Ver Itens sem Login" no final da tela de login. Ao clicar nele, o usuário é redirecionado para a tela de visualização dos itens sem a necessidade de fazer login.
+Você pode alterar a rota 'itens' para a rota específica que exibe os itens.
+Redirecionamento com Navigator.pushNamed:
+
+O Navigator.pushNamed(context, '/itens') é usado para redirecionar o usuário para a tela de visualização de itens.
+Certifique-se de que a rota 'itens' está registrada no arquivo de rotas do seu projeto.
+Como Gerenciar Rotas:
+Certifique-se de registrar as rotas no seu arquivo principal do Flutter (main.dart), algo assim:
+
+void main() {
+  runApp(MaterialApp(
+    initialRoute: '/login',
+    routes: {
+      '/login': (context) => LoginView(),
+      '/itens': (context) => ItensView(), // Tela para visualizar itens
+      '/cadastro': (context) => CadastroView(), // Tela de cadastro
+    },
+  ));
+}
+Essa implementação permitirá que o usuário visualize os itens diretamente ou realize o login com a credencial "admin".

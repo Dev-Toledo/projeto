@@ -4,8 +4,8 @@ Lanches
 
 Podrão da Casa
 
-Preço: R$ 45,00
-Descrição: Hambúrguer completo com queijo, bacon, ovo, presunto, alface, tomate e maionese. Porção com 5 nuggets de frango empanados.
+Preço: R$ 25,00
+Descrição: 2x Hambúrguer completo com queijo, 2x bacon, 2x ovo, 2x presunto, 2x alface, tomate e maionese. 
 Ícone sugerido: new_releases
 
 
@@ -78,3 +78,155 @@ Nuggets de Frango
 Preço: R$ 10,00
 Descrição: Porção com 10 nuggets de frango empanados.
 Ícone sugerido: restaurant_menu
+
+---------------
+
+Se desejar armazenar imagens dos lanches em seu banco de dados tem 3 opçoes:
+
+1: Armazenar o Caminho da Imagem no Banco de Dados
+Em vez de armazenar a imagem diretamente no banco de dados, você pode armazenar o caminho do arquivo da imagem (por exemplo, a URL se estiver na web ou o caminho local se estiver no armazenamento interno do dispositivo). Isso evita o uso desnecessário de espaço no banco de dados e torna o gerenciamento de imagens mais simples.
+
+2: Armazenar a Imagem em Base64 no Banco de Dados
+Se for absolutamente necessário, você pode converter a imagem em uma string codificada em Base64 e armazená-la no banco de dados. No entanto, essa abordagem pode aumentar significativamente o tamanho do banco de dados e não é a melhor opção para o desempenho.
+
+Recomendada (Caminho da Imagem)
+Aqui está como você pode implementar a abordagem que armazena o caminho da imagem no banco de dados.
+
+
+
+1. Atualizar o Modelo Item
+Adicione um campo para o caminho da imagem no modelo Item.
+
+dart
+Copiar código
+class Item {
+  final int id;
+  final String nome;
+  final double preco;
+  final String descricao;
+  final String icone; // Nome do ícone
+  final String imagem; // Caminho da imagem (URL ou caminho local)
+
+  Item({
+    required this.id,
+    required this.nome,
+    required this.preco,
+    required this.descricao,
+    required this.icone,
+    required this.imagem, // Adicione o caminho da imagem
+  });
+
+  // Converte um objeto Item para um mapa
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'nome': nome,
+      'preco': preco,
+      'descricao': descricao,
+      'icone': icone,
+      'imagem': imagem,  // Adiciona o campo da imagem ao mapa
+    };
+  }
+
+  // Converte um mapa do banco de dados para um objeto Item
+  factory Item.fromMap(Map<String, dynamic> map) {
+    return Item(
+      id: map['id'],
+      nome: map['nome'],
+      preco: map['preco'],
+      descricao: map['descricao'],
+      icone: map['icone'],
+      imagem: map['imagem'],  // Converte a string de caminho da imagem
+    );
+  }
+}
+
+
+2. Atualizar a Estrutura da Tabela no Banco de Dados
+Atualize a criação da tabela para incluir o campo da imagem no arquivo db.dart (ou onde você define a criação das tabelas).
+
+dart
+Copiar código
+String get _criarTabelaItens => '''
+  CREATE TABLE itens_pedido (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    nome_item TEXT NOT NULL,
+    preco_unitario REAL NOT NULL,
+    descricao TEXT,
+    icone TEXT,
+    imagem TEXT  -- Campo para armazenar o caminho da imagem
+  );
+''';
+
+
+3. Inserir Itens com Caminhos de Imagens
+Agora você pode modificar os itens iniciais para incluir imagens de lanches. Suponha que as imagens estejam localmente no diretório de assets ou sejam URLs de imagens hospedadas.
+
+Aqui está um exemplo de como inserir itens com imagens:
+
+Future<void> inserirItensIniciais() async {
+  List<Item> itensIniciais = [
+    Item(id: 1, nome: 'X-Burguer', preco: 12.00, descricao: 'Hambúrguer com queijo, alface, tomate e maionese.', icone: 'fastfood', imagem: 'lib/images/x_burguer.png'),
+    Item(id: 2, nome: 'X-Salada', preco: 14.00, descricao: 'Hambúrguer com queijo, salada de alface, tomate, cebola e maionese.', icone: 'restaurant', imagem: 'lib/images/x_salada.png'),
+    Item(id: 3, nome: 'X-Bacon', preco: 16.00, descricao: 'Hambúrguer com queijo, bacon crocante, alface, tomate e maionese.', icone: 'lunch_dining', imagem: 'lib/images/x_bacon.png'),
+    // Outros itens com suas respectivas imagens...
+  ];
+
+  for (var item in itensIniciais) {
+    await criarItem(item); // Insere cada item no banco de dados
+  }
+}
+
+4. Exibir a Imagem do Lanche na UI
+
+Você pode exibir as imagens dos lanches na interface do usuário usando o widget Image. Dependendo de onde as imagens estão armazenadas (local ou na web), você pode usar Image.asset (para imagens locais) ou Image.network (para imagens hospedadas).
+
+
+Exemplo:
+
+ListView.builder(
+  itemCount: itens.length,
+  itemBuilder: (context, index) {
+    final item = itens[index];
+    return ListTile(
+      leading: Image.asset(item.imagem),  // Exibe a imagem do item
+      title: Text(item.nome),
+      subtitle: Text(item.descricao),
+      trailing: Text('R\$ ${item.preco.toStringAsFixed(2)}'),
+    );
+  },
+)
+
+Abordagem Alternativa: Armazenar Imagem em Base64
+
+Se você preferir armazenar as imagens diretamente no banco de dados, você pode convertê-las para Base64. No entanto, essa abordagem é menos eficiente para o desempenho e é recomendada apenas se for absolutamente necessário armazenar as imagens no banco de dados.
+
+
+
+Exemplo de Conversão de Imagem para Base64:
+
+import 'dart:convert';
+import 'dart:io';
+
+// Método para converter uma imagem para Base64
+Future<String> imageToBase64(String imagePath) async {
+  final bytes = await File(imagePath).readAsBytes();
+  return base64Encode(bytes);
+}
+
+// Método para converter Base64 de volta para imagem
+Future<void> base64ToImage(String base64String, String outputPath) async {
+  final bytes = base64Decode(base64String);
+  await File(outputPath).writeAsBytes(bytes);
+}
+
+Nesse caso, você armazenaria o base64String no banco de dados.
+
+
+Conclusão
+
+Armazenando o caminho da imagem: A abordagem mais recomendada é armazenar o caminho da imagem ou a URL, o que evita aumentar o tamanho do banco de dados e facilita o gerenciamento de arquivos.
+
+Exibindo as imagens: Você pode usar o Image.asset para imagens locais ou Image.network para imagens hospedadas.
+
+Armazenando em Base64: Se você precisar armazenar imagens no banco de dados, use Base64, mas tenha em mente as implicações no tamanho do banco.

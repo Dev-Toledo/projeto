@@ -67,6 +67,8 @@ class DB {
       nome_item TEXT,  // Nome do item
       quantidade INTEGER,  // Quantidade do item no pedido
       preco_unitario REAL,  // Preço unitário do item
+      icone TEXT, // Ícones em https://fonts.google.com/
+      imagem TEXT,  // Caminho da imagem do item
       FOREIGN KEY(pedido_id) REFERENCES pedidos(id)  // Relaciona o item com o pedido
     );
   ''';
