@@ -10,12 +10,12 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  //Identificador do Formulário
+  // Identificador do Formulário
   final formKey = GlobalKey<FormState>();
 
   final primaryColor = Color.fromARGB(255, 0, 0, 0);
 
-  //Controladores dos campos de texto
+  // Controladores dos campos de texto
   final txtValor1 = TextEditingController();
   final txtValor2 = TextEditingController();
 
@@ -24,35 +24,20 @@ class _LoginViewState extends State<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-
       // Plano de Fundo
       body: Container(
-
         color: const Color.fromARGB(255, 240, 239, 234),
-         /*decoration: BoxDecoration(
-          image: DecorationImage(
-           image: AssetImage('lib/images/fundo2.png'),
-          fit: BoxFit.cover,
-          colorFilter: ColorFilter.mode(
-          Colors.white.withOpacity(0.6),
-           BlendMode.dstATop,
-          ),
-         ),
-        ),*/
-
-
         child: Form(
           key: formKey,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(50, 60, 50, 60),
             child: Column(children: [
-
               SizedBox(height: 20),
 
               // Logo
-              Image(image: AssetImage("lib/images/logo4.png"),
+              Image(
+                image: AssetImage("lib/images/logo4.png"),
                 width: 200,
               ),
 
@@ -69,7 +54,7 @@ class _LoginViewState extends State<LoginView> {
 
               SizedBox(height: 5),
 
-              // Campo usuário ou e-mail
+              // Campo e-mail
               TextFormField(
                 controller: txtValor1,
                 style: TextStyle(fontSize: 18),
@@ -80,16 +65,14 @@ class _LoginViewState extends State<LoginView> {
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-                validator: (value){
-                    if (value == null){
-                      return 'Informe seu usuário ou e-mail';
-                    } else if (value.isEmpty){
-                      return 'Informe seu usuário ou e-mail';
-                    } else if (double.tryParse(value)==null){
-                      return 'Informe um valor NUMÉRICO';
-                    }
-                    return null;
-                  },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Informe seu e-mail';
+                  } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+                    return 'Informe um e-mail válido';
+                  }
+                  return null;
+                },
               ),
 
               SizedBox(height: 20),
@@ -115,16 +98,14 @@ class _LoginViewState extends State<LoginView> {
                     },
                   ),
                 ),
-                validator: (value){
-                    if (value == null){
-                      return 'Informe sua senha';
-                    } else if (value.isEmpty){
-                      return 'Informe sua senha';
-                    } else if (double.tryParse(value)==null){
-                      return 'Informe um valor NUMÉRICO';
-                    }
-                    return null;
-                  },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Informe sua senha';
+                  } else if (value.length < 6) {
+                    return 'A senha deve ter pelo menos 6 caracteres';
+                  }
+                  return null;
+                },
               ),
 
               SizedBox(height: 10),
@@ -136,7 +117,6 @@ class _LoginViewState extends State<LoginView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-
                       // Checkbox Lembre de mim
                       Checkbox(
                         value: _rememberMe,
@@ -147,18 +127,11 @@ class _LoginViewState extends State<LoginView> {
                         },
                         activeColor: Colors.blue,
                         checkColor: Colors.white,
-                        fillColor: WidgetStateProperty.resolveWith((states) {
-                          return states.contains(WidgetState.selected)
-                              ? Colors.blue
-                              : null;
-                        }),
                       ),
                       Text('Lembre de mim'),
                     ],
                   ),
-
                   SizedBox(width: 30),
-
                   // TextButton Esqueci a senha
                   TextButton(
                     onPressed: () {
@@ -179,37 +152,38 @@ class _LoginViewState extends State<LoginView> {
 
               // Botão de Login
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(300, 60),
-                    backgroundColor: const Color(0xFFF04A00),
-                    foregroundColor: Colors.white,
-                    textStyle: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    // Validação
-                    if(formKey.currentState!.validate()){}
-                  },
-                  child: Text('Login')
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(300, 60),
+                  backgroundColor: const Color(0xFFF04A00),
+                  foregroundColor: Colors.white,
+                  textStyle: TextStyle(fontSize: 20),
                 ),
+                onPressed: () {
+                  // Validação
+                  if (formKey.currentState!.validate()) {
+                    print('Login realizado com sucesso!');
+                  }
+                },
+                child: Text('Login'),
+              ),
 
-                SizedBox(height: 15),
+              SizedBox(height: 15),
 
-                // Botão Cadastro
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(300, 60),
-                    backgroundColor: const Color.fromARGB(255, 122, 124, 125),
-                    foregroundColor: Colors.white,
-                    textStyle: TextStyle(fontSize: 20),
-                  ),
-                  onPressed: () {
-                    // Validação
-                    if(formKey.currentState!.validate()){}
-                  },
-                  child: Text('Cadastrar')
+              // Botão Cadastro
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(300, 60),
+                  backgroundColor: const Color.fromARGB(255, 122, 124, 125),
+                  foregroundColor: Colors.white,
+                  textStyle: TextStyle(fontSize: 20),
                 ),
-              ]
-            ),
+                onPressed: () {
+                  // Redirecionar para a tela de cadastro
+                  Navigator.pushNamed(context, '/cadastro');
+                },
+                child: Text('Cadastrar'),
+              ),
+            ]),
           ),
         ),
       ),
