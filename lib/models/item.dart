@@ -1,34 +1,41 @@
 class Item {
-  final int id; // Identificador único do item
-  final String nome; // Nome do item (ex.: nome do prato ou bebida)
-  final double preco; // Preço unitário do item
-  final String descricao; // Descrição do item (opcional)
+  final int? id;
+  final String nome;
+  final double preco;
+  final String descricao;
+  final String? icone; // Tornar icone opcional
+  final String? imagem; // Tornar imagem opcional
 
-  // Construtor da classe Item
   Item({
-    required this.id,
+    this.id, // Tornar id opcional também se necessário
     required this.nome,
     required this.preco,
-    this.descricao = '', // A descrição é opcional e tem um valor padrão vazio
+    required this.descricao,
+    this.icone, // Agora é opcional
+    this.imagem, // Agora é opcional
   });
 
-  // Converte os dados de um mapa (do banco de dados) para um objeto Item
-  factory Item.fromMap(Map<String, dynamic> map) {
-    return Item(
-      id: map['id'],
-      nome: map['nome'],
-      preco: map['preco'],
-      descricao: map['descricao'] ?? '', // Descrição pode ser nula
-    );
-  }
-
-  // Converte um objeto Item para um mapa (para armazenar no banco de dados)
+  // Método para converter o objeto em Map (usado no banco de dados)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
       'nome': nome,
       'preco': preco,
       'descricao': descricao,
+      'icone': icone,
+      'imagem': imagem,
     };
+  }
+
+  // Método para criar um objeto a partir de um Map (usado no banco de dados)
+  factory Item.fromMap(Map<String, dynamic> map) {
+    return Item(
+      id: map['id'],
+      nome: map['nome'],
+      preco: map['preco'],
+      descricao: map['descricao'],
+      icone: map['icone'],
+      imagem: map['imagem'],
+    );
   }
 }
