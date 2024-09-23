@@ -1,0 +1,91 @@
+Explicação:
+Atributos:
+
+id: Identificador único do pedido.
+usuarioId: O ID do usuário que fez o pedido, usado para relacionar o pedido ao usuário.
+dataPedido: A data e hora em que o pedido foi realizado.
+valorTotal: O valor total do pedido.
+Construtor:
+
+O construtor da classe Pedido recebe os valores necessários para criar uma instância de Pedido.
+
+
+fromMap:
+
+Método que cria um objeto Pedido a partir de um mapa de dados, como o que vem do banco de dados.
+
+
+toMap:
+
+Método que converte um objeto Pedido para um mapa de dados, para que possa ser salvo no banco de dados.
+
+Como Usar:
+
+Criar um pedido:
+
+Pedido pedido = Pedido(
+  id: 0,
+  usuarioId: 1,
+  dataPedido: DateTime.now(),
+  valorTotal: 150.00,
+);
+
+
+Converter um pedido para um mapa (para salvar no banco de dados):
+
+Map<String, dynamic> pedidoMap = pedido.toMap();
+
+
+Criar um pedido a partir de um mapa (ao carregar do banco de dados):
+
+Pedido pedidoFromDb = Pedido.fromMap(pedidoMap);
+Próximos Passos:
+Integração com o Repositório de Pedidos: Use esse modelo Pedido no seu repositório de pedidos (pedidos_repository.dart) para realizar operações como criar, buscar, atualizar e deletar pedidos.
+Interface de Usuário: Crie interfaces e lógica para exibir e gerenciar pedidos na sua aplicação.
+Esse código estabelece o modelo para o pedido, que pode ser facilmente integrado ao sistema de gerenciamento de pedidos no seu aplicativo.
+
+A expressão 'data_pedido': dataPedido.toIso8601String() é usada para converter um objeto DateTime em uma string no formato ISO 8601. Esse formato é um padrão amplamente utilizado para representar datas e horas de maneira clara e padronizada.
+
+Explicação:
+dataPedido: É um objeto DateTime que contém a data e a hora em que o pedido foi feito.
+
+toIso8601String(): Este método converte o objeto DateTime em uma string no formato ISO 8601, que se parece com isso:
+
+Exemplo: "2024-09-25T10:30:00" (ano-mês-dia "T" hora:minuto
+).
+Esse formato é ideal para armazenar datas em bancos de dados, já que ele inclui a data e o horário em um formato legível e facilmente interpretável.
+Por que usar toIso8601String()?:
+
+O SQLite, o banco de dados que você está utilizando, não tem um tipo específico para datas, então você precisa armazenar datas como strings ou inteiros (timestamps).
+ISO 8601 é uma convenção padrão para representar datas como strings e é amplamente suportada por muitos sistemas e bibliotecas.
+Quando você precisar carregar essa string de volta do banco de dados, poderá convertê-la de volta em um objeto DateTime em Flutter.
+
+
+Exemplo Completo:
+
+1. Salvando um Pedido no Banco de Dados:
+Ao salvar o pedido, você transforma a data do pedido (DateTime) em uma string no formato ISO 8601:
+
+Map<String, dynamic> pedidoMap = {
+  'id': pedido.id,
+  'usuario_id': pedido.usuarioId,
+  'data_pedido': pedido.dataPedido.toIso8601String(),  // Convertendo a data para string ISO 8601
+  'valor_total': pedido.valorTotal,
+};
+
+2. Carregando um Pedido do Banco de Dados:
+Ao carregar o pedido do banco de dados, você converte a string ISO 8601 de volta para um objeto DateTime:
+
+Pedido pedido = Pedido(
+  id: map['id'],
+  usuarioId: map['usuario_id'],
+  dataPedido: DateTime.parse(map['data_pedido']),  // Convertendo a string ISO 8601 de volta para DateTime
+  valorTotal: map['valor_total'],
+);
+
+Vantagens do Uso de ISO 8601:
+
+Padrão Internacional: O formato ISO 8601 é um padrão internacionalmente reconhecido para representar datas e horas.
+Portabilidade: Esse formato é suportado por várias bibliotecas e sistemas, facilitando a manipulação de datas em diferentes plataformas.
+Facilidade de Conversão: Você pode facilmente converter DateTime para ISO 8601 e vice-versa, garantindo que as datas sejam armazenadas e recuperadas de forma consistente.
+Em resumo, o método toIso8601String() garante que a data seja armazenada no banco de dados de forma clara, padronizada e fácil de interpretar e manipular.
