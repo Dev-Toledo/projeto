@@ -1,16 +1,17 @@
-import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:projeto/view/login_view.dart';
+import 'package:projeto/view/itens_view.dart'; // Importa a tela de itens
+import 'package:projeto/view/pedidos_view.dart';
+import 'package:device_preview/device_preview.dart';
+import 'package:projeto/view/cadastro_view.dart';
 
 void main() {
-  runApp(
-    DevicePreview(builder: (context) => const MainApp()),
-  );
+  runApp(DevicePreview(
+    builder: (context) => MainApp(),
+  ));
 }
-//git config --global user.name "Caio Toledo de Sousa"
+
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
-// teste
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,7 +19,15 @@ class MainApp extends StatelessWidget {
       initialRoute: 'login',
       routes: {
         'login': (context) => const LoginView(),
+        'itens': (context) => const ItensView(), // Rota para a tela de itens
+        'pedidos': (context) => const PedidosView(),
+        'cadastro': (context) => const CadastroView(),
       },
+      builder: DevicePreview.appBuilder,
     );
   }
 }
+
+
+//git config --global user.name "Nome Completo"
+//git config --global user.email "e-mail@dominio.com"

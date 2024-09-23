@@ -1,13 +1,14 @@
-// ignore_for_file: prefer_const_constructors
+// lib/view/detalhes_pedido_view.dart
 
 import 'package:flutter/material.dart';
 import 'package:projeto/models/pedido.dart';
-import 'package:projeto/repositories/pedidos_repository.dart'; // Certifique-se de importar corretamente
+import 'package:projeto/repositories/pedidos_repository.dart';
 
 class DetalhesPedidoView extends StatelessWidget {
   final Pedido pedido;
+  final VoidCallback onDelete;
 
-  const DetalhesPedidoView({required this.pedido, super.key});
+  const DetalhesPedidoView({required this.pedido, required this.onDelete, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,27 +22,23 @@ class DetalhesPedidoView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Pedido #${pedido.id}',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
+            Text('Pedido #${pedido.id}', style: TextStyle(fontSize: 22)),
             SizedBox(height: 10),
-            Text('Usuário ID: ${pedido.usuarioId}',
-                style: TextStyle(fontSize: 18)),
+            Text('Usuário ID: ${pedido.usuarioId}'),
             SizedBox(height: 10),
-            Text('Data: ${pedido.dataPedido.toIso8601String()}',
-                style: TextStyle(fontSize: 18)),
+            Text('Data: ${pedido.dataPedido.toIso8601String()}'),
             SizedBox(height: 10),
-            Text('Valor Total: R\$ ${pedido.valorTotal.toStringAsFixed(2)}',
-                style: TextStyle(fontSize: 18, color: Colors.green)),
+            Text('Valor Total: R\$ ${pedido.valorTotal.toStringAsFixed(2)}'),
             SizedBox(height: 20),
 
-            // Botão para deletar o pedido (pode ser removido se não for necessário)
+            // Botão para deletar o pedido
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.red,
                 foregroundColor: Colors.white,
               ),
               onPressed: () {
-                // Ação para deletar o pedido
+                // Exibe uma caixa de diálogo para confirmar a exclusão
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -57,11 +54,13 @@ class DetalhesPedidoView extends StatelessWidget {
                       ),
                       TextButton(
                         onPressed: () async {
-                          // Deleta o pedido aqui e volta para a lista de pedidos
+                          // Deleta o pedido se confirmado
                           await PedidosRepository().deletarPedido(pedido.id);
+
+                          // Volta para a lista de pedidos e chama o callback para atualizar a lista
+                          onDelete();
                           Navigator.of(context).pop(); // Fecha o diálogo
-                          Navigator.of(context)
-                              .pop(); // Volta para a tela anterior
+                          Navigator.of(context).pop(); // Volta para a lista
                         },
                         child: Text('Excluir'),
                       ),

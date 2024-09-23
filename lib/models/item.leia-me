@@ -15,12 +15,22 @@ toMap:
 
 Este método converte um objeto Item em um mapa, o que é útil para salvar os dados no banco de dados.
 Como Usar:
+
 Exemplo de criação de um item:
 
-Item item = Item(id: 1, nome: 'Pizza Margherita', preco: 25.50, descricao: 'Deliciosa pizza com queijo e manjericão');
+Item item = Item(
+  id: 1,
+  nome: 'X-Burguer',
+  preco: 12.00,
+  descricao: 'Hambúrguer com queijo, alface, tomate e maionese.',
+  icone: 'fastfood',
+  imagem: 'lib/images/x_burguer.png', // Certifique-se de que o campo 'imagem' tem um valor válido
+),
+
 Converter um item para um mapa:
 
 Map<String, dynamic> itemMap = item.toMap();
+
 Criar um item a partir de um mapa:
 
 Item itemFromDb = Item.fromMap(itemMap);

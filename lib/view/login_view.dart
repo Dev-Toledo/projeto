@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 
 class LoginView extends StatefulWidget {
@@ -66,7 +64,7 @@ class _LoginViewState extends State<LoginView> {
 
               SizedBox(height: 5),
 
-              // Campo e-mail
+              // Campo e-mail ou usuário
               TextFormField(
                 controller: txtValor1,
                 style: TextStyle(fontSize: 18),
@@ -79,9 +77,7 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Informe seu e-mail';
-                  } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-                    return 'Informe um e-mail válido';
+                    return 'Informe seu e-mail ou nome de usuário';
                   }
                   return null;
                 },
@@ -171,9 +167,22 @@ class _LoginViewState extends State<LoginView> {
                   textStyle: TextStyle(fontSize: 20),
                 ),
                 onPressed: () {
-                  // Validação
+                  // Validação do formulário
                   if (formKey.currentState!.validate()) {
-                    print('Login realizado com sucesso!');
+                    String username = txtValor1.text;
+                    String password = txtValor2.text;
+
+                    // Verifica se o login é do administrador (usuário: admin, senha: 123456)
+                    if (username == 'admin' && password == '123456') {
+                      // Redireciona para a tela de pedidos
+                      Navigator.pushNamed(context, 'pedidos');
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Login ou senha inválidos'),
+                        ),
+                      );
+                    }
                   }
                 },
                 child: Text('Login'),
@@ -191,9 +200,26 @@ class _LoginViewState extends State<LoginView> {
                 ),
                 onPressed: () {
                   // Redirecionar para a tela de cadastro
-                  Navigator.pushNamed(context, '/cadastro');
+                  Navigator.pushNamed(context, 'cadastro');
                 },
                 child: Text('Cadastrar'),
+              ),
+
+              SizedBox(height: 20),
+
+              // Botão pequeno para ver itens sem login
+              TextButton(
+                onPressed: () {
+                  // Redirecionar para a tela de itens sem login
+                  Navigator.pushNamed(context, 'itens');
+                },
+                child: Text(
+                  'Ver Itens sem Login',
+                  style: TextStyle(
+                    color: Colors.blue,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
               ),
             ]),
           ),

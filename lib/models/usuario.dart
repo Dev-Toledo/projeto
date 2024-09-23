@@ -1,31 +1,19 @@
 class Usuario {
-  final int id; // Identificador único do usuário
-  final String nome; // Nome do usuário
-  final String email; // E-mail do usuário (deve ser único)
-  final String senha; // Senha do usuário
-  final String tipo; // Tipo de usuário (ex: "admin" ou "cliente")
+  final int? id; // Torne o id opcional (nullable)
+  final String nome;
+  final String email;
+  final String senha;
+  final String tipo;
 
-  // Construtor da classe Usuario
   Usuario({
-    required this.id,
+    this.id, // O id agora é opcional
     required this.nome,
     required this.email,
     required this.senha,
-    required this.tipo, // Pode ser usado para diferenciar entre administradores e clientes
+    required this.tipo,
   });
 
-  // Converte um mapa (do banco de dados) em um objeto Usuario
-  factory Usuario.fromMap(Map<String, dynamic> map) {
-    return Usuario(
-      id: map['id'],
-      nome: map['nome'],
-      email: map['email'],
-      senha: map['senha'],
-      tipo: map['tipo'],
-    );
-  }
-
-  // Converte um objeto Usuario para um mapa (para salvar no banco de dados)
+  // Converte o objeto em um Map (útil para o banco de dados)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -34,5 +22,16 @@ class Usuario {
       'senha': senha,
       'tipo': tipo,
     };
+  }
+
+  // Cria um objeto a partir de um Map
+  factory Usuario.fromMap(Map<String, dynamic> map) {
+    return Usuario(
+      id: map['id'],
+      nome: map['nome'],
+      email: map['email'],
+      senha: map['senha'],
+      tipo: map['tipo'],
+    );
   }
 }
