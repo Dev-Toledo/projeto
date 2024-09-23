@@ -28,6 +28,18 @@ class _LoginViewState extends State<LoginView> {
       // Plano de Fundo
       body: Container(
         color: const Color.fromARGB(255, 240, 239, 234),
+
+        /*decoration: BoxDecoration(
+          image: DecorationImage(
+           image: AssetImage('lib/images/fundo2.png'),
+          fit: BoxFit.cover,
+          colorFilter: ColorFilter.mode(
+          Colors.white.withOpacity(0.6),
+           BlendMode.dstATop,
+          ),
+         ),
+        ),*/
+
         child: Form(
           key: formKey,
           child: Padding(
