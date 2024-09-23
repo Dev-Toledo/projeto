@@ -1,0 +1,73 @@
+Explicação:
+Método criarPedido:
+
+Esse método recebe um objeto Pedido e o insere na tabela pedidos no banco de dados.
+Método buscarPedidos:
+
+Busca todos os pedidos armazenados no banco de dados e os retorna como uma lista de objetos Pedido.
+Método buscarPedidoPorId:
+
+Busca um pedido específico no banco de dados pelo seu id. Se o pedido for encontrado, retorna o objeto Pedido, senão retorna null.
+Método atualizarPedido:
+
+Atualiza os dados de um pedido existente no banco de dados, usando o ID para localizar a linha correta.
+Método deletarPedido:
+
+Deleta um pedido do banco de dados com base no seu ID.
+
+Exemplo de Uso:
+
+Criar um pedido:
+
+Pedido pedido = Pedido(
+  id: 0, // O ID será gerado automaticamente pelo banco de dados
+  usuarioId: 1,
+  dataPedido: DateTime.now(),
+  valorTotal: 150.00,
+);
+PedidosRepository pedidosRepository = PedidosRepository();
+
+await pedidosRepository.criarPedido(pedido);
+
+
+Buscar todos os pedidos:
+
+List<Pedido> pedidos = await pedidosRepository.buscarPedidos();
+pedidos.forEach((pedido) {
+  print('Pedido ID: ${pedido.id}, Valor Total: ${pedido.valorTotal}');
+});
+
+
+Buscar um pedido por ID:
+
+Pedido? pedido = await pedidosRepository.buscarPedidoPorId(1);
+if (pedido != null) {
+  print('Pedido encontrado: ${pedido.valorTotal}');
+} else {
+  print('Pedido não encontrado');
+}
+
+
+Atualizar um pedido:
+
+pedido.valorTotal = 200.00;  // Atualizando o valor total do pedido
+await pedidosRepository.atualizarPedido(pedido);
+
+
+Deletar um pedido:
+
+await pedidosRepository.deletarPedido(1);  // Deletando o pedido com ID 1
+
+
+Como Funciona:
+
+criarPedido: Insere um novo pedido no banco de dados, utilizando o modelo Pedido que converte o objeto para um mapa.
+
+buscarPedidos: Retorna todos os pedidos da tabela pedidos, convertendo os dados do banco em objetos Pedido.
+
+atualizarPedido: Atualiza um pedido existente no banco de dados com base no ID.
+
+deletarPedido: Remove um pedido específico com base no ID fornecido.
+
+Conclusão:
+Esse repositório gerencia as operações CRUD (Criar, Ler, Atualizar e Deletar) para os pedidos no banco de dados. Agora você pode integrá-lo ao seu aplicativo para gerenciar os pedidos dos usuários.
