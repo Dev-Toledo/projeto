@@ -1,19 +1,20 @@
 class Usuario {
-  final int? id; // Torne o id opcional (nullable)
+  final int? id; // O ID do usuário é opcional (nullable)
   final String nome;
   final String email;
   final String senha;
   final String tipo;
 
+  // Construtor que permite a criação de um usuário, com o id opcional
   Usuario({
-    this.id, // O id agora é opcional
+    this.id,
     required this.nome,
     required this.email,
     required this.senha,
     required this.tipo,
   });
 
-  // Converte o objeto em um Map (útil para o banco de dados)
+  // Converte o objeto Usuario para um Map (para inserção no banco de dados)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -24,7 +25,7 @@ class Usuario {
     };
   }
 
-  // Cria um objeto a partir de um Map
+  // Cria um objeto Usuario a partir de um Map (recuperado do banco de dados)
   factory Usuario.fromMap(Map<String, dynamic> map) {
     return Usuario(
       id: map['id'],

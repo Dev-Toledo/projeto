@@ -1,19 +1,22 @@
 lib/
-├── database/
-│   └── db.dart                # Arquivo que gerencia a conexão com o banco de dados
-├── models/
-│   ├── item.dart              # Modelo de item (Item do pedido ou do cardápio)
-│   ├── pedido.dart            # Modelo de pedido
-│   ├── usuario.dart           # Modelo de usuário
-├── repositories/
-│   ├── usuarios_repository.dart  # Repositório que gerencia os usuários
-│   ├── pedidos_repository.dart   # Repositório que gerencia os pedidos
-│   └── itens_repository.dart     # Repositório que gerencia os itens de pedidos
-├── screens/
-│   ├── login_screen.dart       # Tela de login
-│   ├── pedidos_screen.dart     # Tela que lista pedidos
-│   └── detalhes_pedido_screen.dart # Tela que mostra detalhes de um pedido
-
+├── main.dart                   # Arquivo principal que inicializa o aplicativo
+├── view/                       # Pasta para todas as telas (views)
+│   ├── login_view.dart         # Tela de login
+│   ├── itens_view.dart         # Tela que exibe itens do cardápio
+│   ├── pedidos_view.dart       # Tela que exibe pedidos
+│   └── cadastro_view.dart      # Tela de cadastro de usuário
+├── models/                     # Pasta para os modelos (dados)
+│   ├── usuario.dart            # Modelo de usuário
+│   ├── item.dart               # Modelo de item (cardápio)
+│   └── pedido.dart             # Modelo de pedido
+├── repositories/               # Pasta para os repositórios de dados (banco de dados)
+│   ├── usuarios_repository.dart  # Repositório para gerenciamento de usuários
+│   ├── itens_repository.dart     # Repositório para gerenciamento de itens
+│   └── pedidos_repository.dart   # Repositório para gerenciamento de pedidos
+├── database/                   # Pasta para a configuração do banco de dados
+│   └── db.dart                 # Arquivo de configuração do banco de dados SQLite
+└── assets/                     # Pasta para imagens e outros arquivos estáticos
+    └── images/                 # Imagens do projeto
 
 Explicação:
 

@@ -20,7 +20,14 @@ class _PedidosViewState extends State<PedidosView> {
   void initState() {
     super.initState();
     pedidosRepository = PedidosRepository();
-    pedidosFuture = pedidosRepository.buscarPedidos(); // Busca todos os pedidos
+    _carregarPedidos(); // Carrega os pedidos na inicialização
+  }
+
+  // Método para carregar os pedidos do repositório
+  void _carregarPedidos() {
+    setState(() {
+      pedidosFuture = pedidosRepository.buscarPedidos(); // Busca todos os pedidos
+    });
   }
 
   @override
@@ -36,7 +43,7 @@ class _PedidosViewState extends State<PedidosView> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Erro ao carregar pedidos.'));
+            return Center(child: Text('Erro ao carregar pedidos: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return Center(child: Text('Nenhum pedido encontrado.'));
           }
@@ -51,21 +58,20 @@ class _PedidosViewState extends State<PedidosView> {
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
                   title: Text('Pedido #${pedido.id}'),
-                  subtitle: Text(
-                      'Valor: R\$ ${pedido.valorTotal.toStringAsFixed(2)}'),
+                  subtitle: Text('Valor: R\$ ${pedido.valorTotal.toStringAsFixed(2)}'),
                   trailing: Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     // Ação ao tocar em um pedido (detalhes do pedido)
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            DetalhesPedidoView(pedido: pedido, onDelete: () {
-                          // Atualiza a lista de pedidos após a exclusão
-                          setState(() {
-                            pedidosFuture = pedidosRepository.buscarPedidos();
-                          });
-                        }),
+                        builder: (context) => DetalhesPedidoView(
+                          pedido: pedido,
+                          onDelete: () {
+                            // Atualiza a lista de pedidos após a exclusão
+                            _carregarPedidos();
+                          },
+                        ),
                       ),
                     );
                   },

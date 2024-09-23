@@ -1,3 +1,4 @@
+// lib/view/cadastro_view.dart
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ class CadastroView extends StatefulWidget {
 }
 
 class _CadastroViewState extends State<CadastroView> {
-  final formKey = GlobalKey<FormState>(); // Chave para o formulário
+  final formKey = GlobalKey<FormState>();
   final TextEditingController nomeController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController senhaController = TextEditingController();
@@ -39,6 +40,7 @@ class _CadastroViewState extends State<CadastroView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Campo Nome
               TextFormField(
                 controller: nomeController,
                 decoration: InputDecoration(labelText: 'Nome'),
@@ -50,6 +52,8 @@ class _CadastroViewState extends State<CadastroView> {
                 },
               ),
               SizedBox(height: 16),
+              
+              // Campo E-mail
               TextFormField(
                 controller: emailController,
                 decoration: InputDecoration(labelText: 'E-mail'),
@@ -65,6 +69,8 @@ class _CadastroViewState extends State<CadastroView> {
                 },
               ),
               SizedBox(height: 16),
+              
+              // Campo Senha
               TextFormField(
                 controller: senhaController,
                 obscureText: true,
@@ -80,6 +86,8 @@ class _CadastroViewState extends State<CadastroView> {
                 },
               ),
               SizedBox(height: 32),
+              
+              // Botão Cadastrar
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -97,15 +105,22 @@ class _CadastroViewState extends State<CadastroView> {
                         tipo: 'cliente', // Define o tipo de usuário
                       );
 
-                      // Tenta cadastrar o usuário no repositório
-                      await usuariosRepository.criarUsuario(novoUsuario);
+                      try {
+                        // Tenta cadastrar o usuário no repositório
+                        await usuariosRepository.criarUsuario(novoUsuario);
 
-                      // Exibe uma mensagem de sucesso e volta para a tela de login
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Cadastro realizado com sucesso!')),
-                      );
+                        // Exibe uma mensagem de sucesso e volta para a tela de login
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Cadastro realizado com sucesso!')),
+                        );
 
-                      Navigator.pop(context); // Volta para a tela anterior (login)
+                        Navigator.pop(context); // Volta para a tela anterior (login)
+                      } catch (e) {
+                        // Exibe uma mensagem de erro caso o e-mail já esteja cadastrado
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Erro ao cadastrar: ${e.toString()}')),
+                        );
+                      }
                     }
                   },
                   child: Text('Cadastrar'),

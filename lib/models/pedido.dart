@@ -17,9 +17,9 @@ class Pedido {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'usuarioId': usuarioId,
-      'dataPedido': dataPedido.toIso8601String(),
-      'valorTotal': valorTotal,
+      'usuario_id': usuarioId, // Nome da coluna no banco de dados
+      'data_pedido': dataPedido.toIso8601String(), // Armazena data como string ISO 8601
+      'valor_total': valorTotal, // Nome da coluna no banco de dados
     };
   }
 
@@ -27,9 +27,9 @@ class Pedido {
   factory Pedido.fromMap(Map<String, dynamic> map) {
     return Pedido(
       id: map['id'],
-      usuarioId: map['usuarioId'],
-      dataPedido: DateTime.parse(map['dataPedido']),
-      valorTotal: map['valorTotal'],
+      usuarioId: map['usuario_id'], // Correspondente ao nome da coluna no banco de dados
+      dataPedido: DateTime.parse(map['data_pedido']), // Converte string para DateTime
+      valorTotal: map['valor_total'], // Nome da coluna no banco de dados
     );
   }
 }

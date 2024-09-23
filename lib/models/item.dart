@@ -4,7 +4,7 @@ class Item {
   final double preco;
   final String descricao;
   final String icone;
-  final String imagem; // Certifique-se de que o campo 'imagem' existe
+  final String imagem; // Campo para armazenar o caminho da imagem
 
   Item({
     required this.id,
@@ -12,10 +12,10 @@ class Item {
     required this.preco,
     required this.descricao,
     required this.icone,
-    required this.imagem, // Certifique-se de que o campo 'imagem' está presente no construtor
+    required this.imagem, // Certifique-se de que o campo 'imagem' está presente
   });
 
-  // Método para converter o objeto em Map (usado no banco de dados)
+  // Converte o objeto em um Map (para armazenar no banco de dados)
   Map<String, dynamic> toMap() {
     return {
       'id': id,
@@ -23,11 +23,11 @@ class Item {
       'preco': preco,
       'descricao': descricao,
       'icone': icone,
-      'imagem': imagem, // Certifique-se de que o campo 'imagem' é incluído no Map
+      'imagem': imagem, // Inclui a imagem no Map
     };
   }
 
-  // Método para criar um objeto Item a partir de um Map (usado no banco de dados)
+  // Cria um objeto Item a partir de um Map (para recuperar do banco de dados)
   factory Item.fromMap(Map<String, dynamic> map) {
     return Item(
       id: map['id'],
@@ -35,18 +35,8 @@ class Item {
       preco: map['preco'],
       descricao: map['descricao'],
       icone: map['icone'],
-      imagem: map['imagem'], // Certifique-se de que o campo 'imagem' é incluído aqui também
+      imagem: map['imagem'], // Recupera a imagem do Map
     );
   }
-
-  
 }
 
-Item item = Item(
-  id: 1,
-  nome: 'X-Burguer',
-  preco: 12.00,
-  descricao: 'Hambúrguer com queijo, alface, tomate e maionese.',
-  icone: 'fastfood',
-  imagem: 'lib/images/x_burguer.png', // Certifique-se de que o campo 'imagem' tem um valor válido
-);
