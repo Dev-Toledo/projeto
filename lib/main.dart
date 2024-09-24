@@ -14,11 +14,11 @@ void main() {
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({Key? key}) : super(key: key); // Adicione o parâmetro `key`
+  const MainApp({super.key}); // Utiliza o super parameter para a key
 
   @override
   Widget build(BuildContext context) {
-    var textTheme = TextTheme(
+    var textTheme = const TextTheme( // Adicionei o 'const' aqui
       bodyLarge: TextStyle(color: Colors.black, fontSize: 16), // bodyLarge é o texto principal
       bodyMedium: TextStyle(color: Colors.black, fontSize: 14), // bodyMedium para texto secundário
     );
@@ -42,6 +42,8 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
+
 
 
 
