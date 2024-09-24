@@ -19,8 +19,8 @@ class DB {
   // Método para inicializar o banco de dados e definir as tabelas
   Future<Database> _initDatabase() async {
     return await openDatabase(
-      join(await getDatabasesPath(), 'projeto_restaurante.db'),
-      version: 2, // Atualizamos para a versão 2
+      join(await getDatabasesPath(), 'projeto.db'),
+      version: 3, // Atualizamos para a versão 2
       onCreate: _onCreate,
       onUpgrade: _onUpgrade, // Adicionamos suporte para upgrade
     );
@@ -28,9 +28,9 @@ class DB {
 
   // Método para criar as tabelas
   Future<void> _onCreate(Database db, int version) async {
-    await db.execute(_usuarios);   // Cria a tabela 'usuarios'
-    await db.execute(_pedidos);    // Cria a tabela 'pedidos'
-    await db.execute(_cardapio);   // Cria a tabela 'cardapio'
+    await db.execute(_usuarios); // Cria a tabela 'usuarios'
+    await db.execute(_pedidos); // Cria a tabela 'pedidos'
+    await db.execute(_cardapio); // Cria a tabela 'cardapio'
     await db.execute(_itensPedido); // Cria a tabela 'itens_pedido'
 
     // Inserir dados iniciais na tabela 'usuarios'

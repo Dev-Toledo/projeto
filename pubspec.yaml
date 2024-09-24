@@ -17,8 +17,8 @@ dependencies:
   hive_flutter: ^1.1.0
   path_provider: ^2.0.2
   sqflite: ^2.0.0+3
-  sqflite_common_ffi: ^2.1.0
-  fl_chart: ^0.36.2
+  sqflite_common_ffi: ^2.3.3
+  fl_chart: ^0.69.0
 
 dev_dependencies:
   flutter_test:
