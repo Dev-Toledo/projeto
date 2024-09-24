@@ -26,7 +26,8 @@ class _PedidosViewState extends State<PedidosView> {
   // Método para carregar os pedidos do repositório
   void _carregarPedidos() {
     setState(() {
-      pedidosFuture = pedidosRepository.buscarPedidos(); // Busca todos os pedidos
+      pedidosFuture =
+          pedidosRepository.buscarPedidos(); // Busca todos os pedidos
     });
   }
 
@@ -34,18 +35,19 @@ class _PedidosViewState extends State<PedidosView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Meus Pedidos'),
+        title: const Text('Meus Pedidos'),
         backgroundColor: Colors.orange,
       ),
       body: FutureBuilder<List<Pedido>>(
         future: pedidosFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Erro ao carregar pedidos: ${snapshot.error}'));
+            return Center(
+                child: Text('Erro ao carregar pedidos: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('Nenhum pedido encontrado.'));
+            return const Center(child: Text('Nenhum pedido encontrado.'));
           }
 
           List<Pedido> pedidos = snapshot.data!;
@@ -55,11 +57,12 @@ class _PedidosViewState extends State<PedidosView> {
             itemBuilder: (context, index) {
               final pedido = pedidos[index];
               return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
                   title: Text('Pedido #${pedido.id}'),
-                  subtitle: Text('Valor: R\$ ${pedido.valorTotal.toStringAsFixed(2)}'),
-                  trailing: Icon(Icons.arrow_forward_ios),
+                  subtitle: Text(
+                      'Valor: R\$ ${pedido.valorTotal.toStringAsFixed(2)}'),
+                  trailing: const Icon(Icons.arrow_forward_ios),
                   onTap: () {
                     // Ação ao tocar em um pedido (detalhes do pedido)
                     Navigator.push(

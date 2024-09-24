@@ -25,7 +25,7 @@ class _SplashViewState extends State<SplashView>
   void _inicializarAnimacao() {
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: const Duration(seconds: 2),
     );
     _animation = Tween<double>(begin: -0.05, end: 0.05).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
@@ -39,12 +39,12 @@ class _SplashViewState extends State<SplashView>
     try {
       await DB.instance.database; // Inicializa o banco de dados
       // Simula um tempo de carregamento
-      await Future.delayed(Duration(seconds: 2));
+      await Future.delayed(const Duration(seconds: 2));
 
       // Após a inicialização, navega para a tela de login
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => LoginView()),
+        MaterialPageRoute(builder: (context) => const LoginView()),
       );
     } catch (e) {
       _mostrarErroCarregamento(e);
@@ -74,7 +74,7 @@ class _SplashViewState extends State<SplashView>
         children: [
           // Fundo com a imagem backgroud
           Container(
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('lib/images/fundo2.png'),
                 fit: BoxFit.cover,
@@ -115,12 +115,12 @@ class _SplashViewState extends State<SplashView>
                     );
                   },
                 ),
-                SizedBox(height: 20),
-                CircularProgressIndicator(
+                const SizedBox(height: 20),
+                const CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
-                SizedBox(height: 20),
-                Text(
+                const SizedBox(height: 20),
+                const Text(
                   'Carregando...',
                   style: TextStyle(fontSize: 18, color: Colors.white),
                 ),

@@ -26,9 +26,11 @@ void main() {
 }
 
 class MainApp extends StatelessWidget {
+  const MainApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    var textTheme = TextTheme(
+    var textTheme = const TextTheme(
       bodyLarge: TextStyle(
           color: Colors.black, fontSize: 16), // bodyLarge é o texto principal
       bodyMedium: TextStyle(
