@@ -86,27 +86,40 @@ class _SplashViewState extends State<SplashView>
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Logo balançando devagar
+                // Logo balançando devagar com sombra branca
                 AnimatedBuilder(
                   animation: _animationController,
                   builder: (context, child) {
                     return Transform.rotate(
                       angle: _animation.value,
-                      child: Image.asset(
-                        'lib/images/logo_transparente.png', // Imagem do logo
-                        width: 150,
-                        height: 150,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle, // Define o formato da sombra
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white.withOpacity(
+                                  0.7), // Cor branca com transparência
+                              blurRadius:
+                                  20, // Aumente ou diminua o raio da sombra
+                              spreadRadius:
+                                  9, // Aumenta o efeito de expansão da sombra
+                            ),
+                          ],
+                        ),
+                        child: Image.asset(
+                          'lib/images/logo_transparente.png', // Imagem do logo
+                          width: 300,
+                          height: 300,
+                        ),
                       ),
                     );
                   },
                 ),
                 SizedBox(height: 20),
-                // Indicador de progresso (carregamento)
                 CircularProgressIndicator(
                   valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                 ),
                 SizedBox(height: 20),
-                // Texto que indica o progresso
                 Text(
                   'Carregando...',
                   style: TextStyle(fontSize: 18, color: Colors.white),
