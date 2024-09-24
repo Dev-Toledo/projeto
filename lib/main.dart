@@ -9,11 +9,13 @@ import 'package:flutter/foundation.dart'; // Importa para usar kReleaseMode
 void main() {
   runApp(DevicePreview(
     enabled: !kReleaseMode, // Desativa o DevicePreview em produção
-    builder: (context) => MainApp(),
+    builder: (context) => const MainApp(), // Defina const para widgets imutáveis
   ));
 }
 
 class MainApp extends StatelessWidget {
+  const MainApp({Key? key}) : super(key: key); // Adicione o parâmetro `key`
+
   @override
   Widget build(BuildContext context) {
     var textTheme = TextTheme(
@@ -40,6 +42,7 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
 
 
 //git config --global user.name "Nome Completo"

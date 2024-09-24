@@ -49,7 +49,7 @@ class _ItensViewState extends State<ItensView> {
               return Card(
                 margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
                 child: ListTile(
-                  leading: item.imagem != null
+                  leading: item.imagem.isNotEmpty 
                       ? Image.asset(item.imagem) // Exibe a imagem do item, se existir
                       : Icon(Icons.fastfood), // Ícone padrão se não houver imagem
                   title: Text(item.nome),
@@ -79,7 +79,7 @@ class _ItensViewState extends State<ItensView> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              item.imagem != null
+              item.imagem.isNotEmpty 
                   ? Image.asset(item.imagem) // Exibe a imagem do item, se existir
                   : Icon(Icons.fastfood), // Ícone padrão se não houver imagem
               SizedBox(height: 10),

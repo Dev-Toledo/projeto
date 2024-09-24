@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  path: ^1.8.0  # Adiciona a dependência do pacote path
+  crypto: ^3.0.1  # Adiciona a dependência do pacote 'crypto'
   device_preview: ^1.2.0
   intl: any
   provider: 6.1.2
