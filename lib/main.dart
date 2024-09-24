@@ -3,12 +3,21 @@ import 'package:projeto/view/login_view.dart';
 import 'package:projeto/view/itens_view.dart';
 import 'package:projeto/view/pedidos_view.dart';
 import 'package:projeto/view/cadastro_view.dart';
+import 'package:projeto/view/splash_view.dart'; // Adicione a importação da tela de carregamento
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Import necessário para desktop
 
-void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Garante que tudo esteja pronto antes de inicializar
+void main() {
+  // Inicialize o databaseFactory para desktop (sqflite_common_ffi)
+  if (!kIsWeb &&
+      (defaultTargetPlatform == TargetPlatform.windows ||
+          defaultTargetPlatform == TargetPlatform.linux ||
+          defaultTargetPlatform == TargetPlatform.macOS)) {
+    sqfliteFfiInit();
+    databaseFactory =
+        databaseFactoryFfi; // Inicializa o factory do banco de dados para desktop
+  }
 
   runApp(DevicePreview(
     enabled: !kReleaseMode,
@@ -28,8 +37,9 @@ class MainApp extends StatelessWidget {
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: 'splash', // Define a tela inicial como a SplashScreen
       routes: {
+        'splash': (context) => const SplashView(), // Rota para a SplashScreen
         'login': (context) => const LoginView(),
         'itens': (context) => const ItensView(),
         'pedidos': (context) => const PedidosView(),
