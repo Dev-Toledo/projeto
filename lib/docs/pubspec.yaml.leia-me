@@ -1,0 +1,46 @@
+O que foi corrigido:
+
+Dependência flutter duplicada: Agora só há uma instância da dependência flutter na seção dependencies.
+
+Seção de dependências organizada: As dependências agora estão organizadas corretamente, sem duplicação.
+
+Explicação das Dependências:
+
+flutter: Dependência principal que inclui o SDK do Flutter.
+
+device_preview: Ferramenta que permite pré-visualizar seu app em diferentes dispositivos e tamanhos de tela.
+
+intl: Biblioteca para suporte a internacionalização e formatação de datas/números.
+
+provider: Gerenciador de estado baseado em InheritedWidget, bastante utilizado para arquitetura de aplicativos.
+
+shared_preferences: Armazenamento local simples para dados de preferências (chave-valor).
+
+hive e hive_flutter: Banco de dados local rápido e eficiente, ideal para persistir dados no dispositivo.
+
+path_provider: Acesso aos caminhos de diretórios no sistema de arquivos (documentos, cache, etc.).
+
+sqflite: Integração do SQLite com Flutter, para uso de banco de dados local.
+
+fl_chart: Biblioteca para criar gráficos no Flutter.
+
+Como Continuar:
+Depois de corrigir o arquivo pubspec.yaml, execute o seguinte comando no terminal para baixar as dependências:
+
+flutter pub get
+
+Isso irá garantir que todas as dependências sejam instaladas corretamente e que você possa continuar o desenvolvimento do seu projeto sem problemas relacionados ao pubspec.yaml.
+
+O que aparece no Terminal:
+-----
+Resolving dependencies... 
+Downloading packages... 
+  collection 1.18.0 (1.19.0 available)
+  leak_tracker 10.0.5 (10.0.7 available)
+  leak_tracker_flutter_testing 3.0.5 (3.0.8 available)
+  material_color_utilities 0.11.1 (0.12.0 available)
+  meta 1.15.0 (1.16.0 available)
+  string_scanner 1.2.0 (1.3.0 available)
+  test_api 0.7.2 (0.7.3 available)
+Got dependencies!
+-----

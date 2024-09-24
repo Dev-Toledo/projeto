@@ -1,41 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
-import 'package:projeto/database/db.dart'; // Certifique-se de ter importado seu arquivo de banco de dados
+import 'package:projeto/view/login_view.dart';
+import 'package:projeto/view/itens_view.dart';
+import 'package:projeto/view/pedidos_view.dart';
+import 'package:projeto/view/cadastro_view.dart';
+import 'package:projeto/view/splash_view.dart'; // Importa a tela de splash
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart'; // Importa para usar kReleaseMode
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await testarConexaoComBancoDeDados(); // Teste de conexão ao iniciar o app
-  runApp(const MainApp());
+void main() {
+  runApp(DevicePreview(
+    enabled: !kReleaseMode, // Desativa o DevicePreview em produção
+    builder: (context) => const MainApp(), // Defina const para widgets imutáveis
+  ));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({super.key}); // Utiliza o super parameter para a key
 
   @override
   Widget build(BuildContext context) {
+    var textTheme = const TextTheme(
+      bodyLarge: TextStyle(color: Colors.black, fontSize: 16), // bodyLarge é o texto principal
+      bodyMedium: TextStyle(color: Colors.black, fontSize: 14), // bodyMedium para texto secundário
+    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Teste de Conexão com Banco de Dados'),
-        ),
-        body: const Center(
-          child: Text('Conexão bem-sucedida! Verifique o log para mais detalhes.'),
-        ),
+      initialRoute: 'login', // Define a splash view como rota inicial
+      routes: {
+        'splash': (context) => const SplashView(),
+        'login': (context) => const LoginView(),
+        'itens': (context) => const ItensView(),
+        'pedidos': (context) => const PedidosView(),
+        'cadastro': (context) => const CadastroView(),
+      },
+      builder: DevicePreview.appBuilder,
+      theme: ThemeData(
+        primarySwatch: Colors.orange, // Define o tema principal
+        textTheme: textTheme,
       ),
+      onUnknownRoute: (RouteSettings settings) {
+        return MaterialPageRoute(builder: (_) => const LoginView());
+      },
     );
   }
 }
 
-// Função para testar a conexão com o banco de dados
-Future<void> testarConexaoComBancoDeDados() async {
-  try {
-    Database db = await DB.instance.database;
-    print('Conexão com o banco de dados estabelecida com sucesso.');
-    // Você pode executar uma consulta simples para garantir que a conexão está funcionando
-    var resultado = await db.rawQuery('SELECT 1');
-    print('Resultado da consulta: $resultado');
-  } catch (e) {
-    print('Erro ao conectar com o banco de dados: $e');
-  }
-}
+
+
+
+
+//git config --global user.name "Nome Completo"
+//git config --global user.email "e-mail@dominio.com"
