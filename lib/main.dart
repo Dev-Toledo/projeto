@@ -3,6 +3,7 @@ import 'package:projeto/view/login_view.dart';
 import 'package:projeto/view/itens_view.dart';
 import 'package:projeto/view/pedidos_view.dart';
 import 'package:projeto/view/cadastro_view.dart';
+import 'package:projeto/view/splash_view.dart'; // Importa a tela de splash
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart'; // Importa para usar kReleaseMode
 
@@ -18,14 +19,15 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var textTheme = const TextTheme( // Adicionei o 'const' aqui
+    var textTheme = const TextTheme(
       bodyLarge: TextStyle(color: Colors.black, fontSize: 16), // bodyLarge é o texto principal
       bodyMedium: TextStyle(color: Colors.black, fontSize: 14), // bodyMedium para texto secundário
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'login',
+      initialRoute: 'splash', // Define a splash view como rota inicial
       routes: {
+        'splash': (context) => const SplashView(),
         'login': (context) => const LoginView(),
         'itens': (context) => const ItensView(),
         'pedidos': (context) => const PedidosView(),

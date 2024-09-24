@@ -1,15 +1,21 @@
+import 'package:flutter/foundation.dart'; // Para kIsWeb e defaultTargetPlatform
 import 'package:sqflite/sqflite.dart';
+import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Para suporte a desktop
 import 'package:path/path.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
 class DB {
+  // Construtor privado para singleton
   DB._();
 
+  // Instância única de DB
   static final DB instance = DB._();
 
+  // Instância do banco de dados SQLite
   static Database? _database;
 
+  // Getter assíncrono para acessar o banco de dados
   Future<Database> get database async {
     if (_database != null) return _database!;
     _database = await _initDatabase();
@@ -18,8 +24,21 @@ class DB {
 
   // Método para inicializar o banco de dados e definir as tabelas
   Future<Database> _initDatabase() async {
+    // Inicializa o databaseFactory para plataformas desktop
+    if (!kIsWeb &&
+        (defaultTargetPlatform == TargetPlatform.windows ||
+            defaultTargetPlatform == TargetPlatform.linux ||
+            defaultTargetPlatform == TargetPlatform.macOS)) {
+      sqfliteFfiInit(); // Inicializa o FFI
+      databaseFactory = databaseFactoryFfi; // Define o databaseFactory para desktop
+    }
+
+    // Obtém o caminho do banco de dados
+    String path = join(await getDatabasesPath(), 'projeto_restaurante.db');
+
+    // Abre ou cria o banco de dados
     return await openDatabase(
-      join(await getDatabasesPath(), 'projeto_restaurante.db'),
+      path,
       version: 2, // Atualizamos para a versão 2
       onCreate: _onCreate,
       onUpgrade: _onUpgrade, // Adicionamos suporte para upgrade
@@ -28,9 +47,9 @@ class DB {
 
   // Método para criar as tabelas
   Future<void> _onCreate(Database db, int version) async {
-    await db.execute(_usuarios);   // Cria a tabela 'usuarios'
-    await db.execute(_pedidos);    // Cria a tabela 'pedidos'
-    await db.execute(_cardapio);   // Cria a tabela 'cardapio'
+    await db.execute(_usuarios); // Cria a tabela 'usuarios'
+    await db.execute(_pedidos); // Cria a tabela 'pedidos'
+    await db.execute(_cardapio); // Cria a tabela 'cardapio'
     await db.execute(_itensPedido); // Cria a tabela 'itens_pedido'
 
     // Inserir dados iniciais na tabela 'usuarios'
@@ -49,6 +68,23 @@ class DB {
     });
 
     // Inserir dados iniciais no cardápio
+    await _inserirDadosIniciaisCardapio(db);
+  }
+
+  // Método que lida com upgrades no banco de dados
+  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
+    if (oldVersion < 2) {
+      // Caso atualize da versão 1 para 2, crie a tabela de cardápio
+      await db.execute(_cardapio);
+      await db.execute(_itensPedido);
+
+      // Inserir dados iniciais no cardápio
+      await _inserirDadosIniciaisCardapio(db);
+    }
+  }
+
+  // Método para inserir dados iniciais no cardápio
+  Future<void> _inserirDadosIniciaisCardapio(Database db) async {
     await db.insert('cardapio', {
       'nome': 'X-Burguer',
       'descricao': 'Hambúrguer com queijo, alface, tomate e maionese.',
@@ -60,14 +96,6 @@ class DB {
       'descricao': 'Refrigerante lata 350ml',
       'preco': 5.00,
     });
-  }
-
-  // Método que lida com upgrades no banco de dados
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      // Caso atualize da versão 1 para 2, crie a tabela de cardápio
-      await db.execute(_cardapio);
-    }
   }
 
   // Função para hashear a senha (usando SHA-256)

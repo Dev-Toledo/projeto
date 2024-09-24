@@ -13,7 +13,6 @@ class ItemRepository {
   _initRepository() async {
     db = await DB.instance.database;
   }
-````````````
 
   // Método para adicionar um item no banco de dados
   Future<void> criarItem(Item item) async {
