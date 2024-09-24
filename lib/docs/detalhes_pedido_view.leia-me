@@ -1,0 +1,63 @@
+Explicação:
+
+AppBar:
+
+Exibe o título da página com o ID do pedido.
+
+Um botão "Voltar" é fornecido automaticamente pelo AppBar.
+
+
+Exibição dos Detalhes do Pedido:
+
+Exibe os detalhes importantes do pedido, como:
+
+ID do Pedido (pedido.id)
+ID do Usuário (pedido.usuarioId)
+Data do Pedido (pedido.dataPedido)
+Valor Total (pedido.valorTotal)
+Botão de Excluir Pedido:
+
+Quando pressionado, abre um AlertDialog que pede confirmação para excluir o pedido.
+
+Se o usuário confirmar, o pedido é excluído através do repositório PedidosRepository, e a interface navega de volta para a lista de pedidos.
+
+Diálogo de Confirmação:
+
+Um AlertDialog é mostrado antes de deletar o pedido para garantir que o usuário realmente deseja excluí-lo.
+Integração com Outros Arquivos:
+Navegação: Essa tela pode ser acessada a partir da tela de listagem de pedidos (pedidos_view.dart), quando o usuário clica em um pedido.
+
+
+
+Exemplo de como acessar a DetalhesPedidoView na PedidosView:
+
+onTap: () {
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => DetalhesPedidoView(pedido: pedido),
+    ),
+  );
+},
+
+
+Funcionalidades:
+
+Visualização de detalhes: O usuário pode ver todas as informações relacionadas ao pedido.
+Exclusão do pedido: O usuário pode excluir um pedido, com confirmação, e a exclusão reflete no banco de dados.
+Exemplo de como usar:
+Na tela de pedidos, ao clicar em um item, você pode usar o Navigator para ir para a DetalhesPedidoView e passar o objeto Pedido como argumento.
+
+Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => DetalhesPedidoView(pedido: pedido),
+  ),
+);
+
+
+Conclusão:
+Essa tela oferece uma visão detalhada de um pedido específico e uma funcionalidade opcional de exclusão. Ela pode ser facilmente integrada ao sistema de pedidos do aplicativo para fornecer uma maneira simples e eficiente de gerenciar pedidos.
+
+---
+Ler await no final das instruções de db.dart

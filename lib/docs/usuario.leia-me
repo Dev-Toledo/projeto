@@ -1,0 +1,45 @@
+Explicação:
+Atributos:
+
+id: O identificador único de cada usuário. Esse valor geralmente é gerado automaticamente pelo banco de dados.
+nome: O nome completo do usuário.
+email: O e-mail do usuário, que deve ser único.
+senha: A senha do usuário (geralmente, essa senha deve ser protegida adequadamente com hashing, mas aqui é armazenada diretamente).
+tipo: O tipo do usuário, como "admin" ou "cliente", que pode ser usado para diferenciar os papéis no sistema.
+Construtor:
+
+O construtor da classe recebe os valores necessários para criar uma instância de Usuario.
+fromMap:
+
+Método que cria um objeto Usuario a partir de um mapa de dados, como o que vem do banco de dados.
+toMap:
+
+Método que converte um objeto Usuario para um mapa de dados, para que possa ser salvo no banco de dados.
+
+Como Usar:
+
+Criar um usuário:
+
+Usuario usuario = Usuario(
+  id: 0,
+  nome: 'João Silva',
+  email: 'joao@example.com',
+  senha: 'senha123',
+  tipo: 'cliente'
+);
+
+
+Converter um usuário para um mapa (para salvar no banco de dados):
+
+Map<String, dynamic> usuarioMap = usuario.toMap();
+
+
+Criar um usuário a partir de um mapa (ao carregar do banco de dados):
+
+Usuario usuarioFromDb = Usuario.fromMap(usuarioMap);
+
+
+Próximos Passos:
+
+Integração com o Repositório: Use esse modelo Usuario no seu repositório de usuários (usuarios_repository.dart) para realizar operações como criar, buscar, atualizar e deletar usuários.
+Interface de Login: Crie interfaces e lógica para o sistema de login, onde esse modelo será utilizado para armazenar e verificar os dados dos usuários.

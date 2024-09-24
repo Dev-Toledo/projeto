@@ -1,0 +1,116 @@
+lib/
+├── main.dart                   # Arquivo principal que inicializa o aplicativo
+├── view/                       # Pasta para todas as telas (views)
+│   ├── login_view.dart         # Tela de login
+│   ├── itens_view.dart         # Tela que exibe itens do cardápio
+│   ├── pedidos_view.dart       # Tela que exibe pedidos
+│   └── cadastro_view.dart      # Tela de cadastro de usuário
+├── models/                     # Pasta para os modelos (dados)
+│   ├── usuario.dart            # Modelo de usuário
+│   ├── item.dart               # Modelo de item (cardápio)
+│   └── pedido.dart             # Modelo de pedido
+├── repositories/               # Pasta para os repositórios de dados (banco de dados)
+│   ├── usuarios_repository.dart  # Repositório para gerenciamento de usuários
+│   ├── itens_repository.dart     # Repositório para gerenciamento de itens
+│   └── pedidos_repository.dart   # Repositório para gerenciamento de pedidos
+├── database/                   # Pasta para a configuração do banco de dados
+│   └── db.dart                 # Arquivo de configuração do banco de dados SQLite
+└── assets/                     # Pasta para imagens e outros arquivos estáticos
+    └── images/                 # Imagens do projeto
+
+Explicação:
+
+Singleton: O banco de dados é gerenciado por meio de uma classe Singleton (DB), garantindo que só haja uma conexão ativa com o banco de dados ao longo do ciclo de vida da aplicação.
+
+
+Métodos:
+
+database: O getter é responsável por garantir que o banco de dados seja inicializado apenas uma vez.
+_initDatabase: Método que define o caminho do banco de dados e o inicializa.
+_onCreate: Método que cria as tabelas usuarios, pedidos e itens_pedido na primeira inicialização do banco de dados.
+
+Tabelas:
+
+usuarios: Armazena os usuários do sistema, com colunas como id, nome, email, senha, e tipo (por exemplo, "admin" ou "cliente").
+pedidos: Armazena os pedidos feitos pelos usuários, vinculados por meio de usuario_id.
+itens_pedido: Armazena os itens que fazem parte de cada pedido, vinculados por meio de pedido_id.
+
+
+Próximos Passos:
+
+Migrações: Se houver a necessidade de alterar a estrutura do banco de dados no futuro, você pode adicionar o método onUpgrade para gerenciar migrações.
+
+Integração com o App: Agora, você pode usar essa conexão para acessar e manipular dados dentro das classes repositories que você está desenvolvendo.
+
+
+------(dúvidas de detalhes_pedido_view.dart)
+Sync com tela de pedidos explicação:
+------
+O await é uma palavra-chave em Dart usada para esperar a conclusão de uma operação assíncrona antes de continuar com a execução do código. Quando você usa o await, ele suspende a execução do código no ponto onde a função assíncrona é chamada, aguardando que a operação seja completada, para então prosseguir.
+
+Como o await funciona?
+
+O await deve ser usado com funções que retornam um Future. Um Future em Dart representa uma operação que pode ser concluída no futuro (por exemplo, uma chamada de API, uma consulta ao banco de dados, etc.). O await basicamente "desempacota" o resultado do Future assim que a operação é finalizada, permitindo que você trabalhe com o valor retornado.
+
+
+Exemplo simples:
+
+Future<void> exemploAssincrono() async {
+  print('Iniciando operação...');
+
+  // Simulação de uma operação assíncrona com await
+  await Future.delayed(Duration(seconds: 2));  // Espera por 2 segundos
+
+  print('Operação concluída!');
+}
+
+void main() async {
+  await exemploAssincrono();
+  print('Continuação após a operação assíncrona');
+}
+
+
+O que acontece neste exemplo:
+
+Future.delayed simula uma operação que leva 2 segundos para ser concluída.
+
+await pausa a execução da função exemploAssincrono até que o Future seja concluído (2 segundos nesse caso).
+
+Após o await, o código continua sua execução e imprime "Operação concluída!" e "Continuação após a operação assíncrona".
+
+Requisitos:
+Funções assíncronas: O await só pode ser usado dentro de funções marcadas com a palavra-chave async.
+async é o modificador que indica que a função pode conter operações assíncronas, como await.
+
+Exemplo no contexto do Flutter:
+No Flutter, você pode usar await para esperar a conclusão de tarefas assíncronas, como fazer uma consulta ao banco de dados ou fazer uma requisição HTTP.
+
+Exemplo com await e consulta ao banco de dados:
+
+Future<void> deletarPedido(int id) async {
+  // Simulação de deleção de um pedido no banco de dados
+  await db.delete('pedidos', where: 'id = ?', whereArgs: [id]);
+  print('Pedido $id deletado');
+}
+
+void excluirPedido(int pedidoId) async {
+  await deletarPedido(pedidoId);  // Espera até que o pedido seja deletado
+  print('Pedido foi removido do banco de dados');
+}
+
+O que o await faz nesse exemplo:
+
+await db.delete(): Espera a operação de exclusão no banco de dados ser concluída antes de continuar.
+
+await deletarPedido(pedidoId): A execução da função excluirPedido será pausada até que o pedido tenha sido deletado do banco de dados.
+
+
+Resumo:
+
+await é usado para esperar por operações assíncronas (futuras) antes de prosseguir com o código.
+
+Ele só pode ser usado dentro de uma função marcada com async.
+
+Quando o await é usado, a execução da função é pausada até que o Future retorne o resultado ou seja resolvido.
+
+Isso é extremamente útil no Flutter para lidar com operações como chamadas de API, interações com bancos de dados, ou qualquer operação que possa demorar a ser concluída.

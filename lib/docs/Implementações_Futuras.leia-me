@@ -1,0 +1,355 @@
+A Efetuar Levantamento
+
+Para atualizar dados no banco de dados SQLite com base na estrutura do projeto que você forneceu, o fluxo geralmente envolve o uso de repositórios, como o usuarios_repository.dart, pedidos_repository.dart, ou itens_repository.dart, para modificar os dados armazenados no banco de dados.
+
+Aqui está o que pode ser atualizado:
+
+1. Atualizar Usuário (via usuarios_repository.dart)
+Se você deseja atualizar as informações de um usuário, como nome, e-mail ou senha, você precisará de um método de atualização no repositório usuarios_repository.dart.
+
+Exemplo de método para atualizar um usuário:
+No arquivo usuarios_repository.dart:
+
+// Atualiza um usuário existente no banco de dados
+Future<void> atualizarUsuario(Usuario usuario) async {
+  await db.update(
+    'usuarios',
+    usuario.toMap(),
+    where: 'id = ?',
+    whereArgs: [usuario.id],
+  );
+}
+
+
+Como usar o método atualizarUsuario:
+
+void atualizarDadosUsuario() async {
+  Usuario usuarioAtualizado = Usuario(
+    id: 1,  // O ID do usuário a ser atualizado
+    nome: 'João Silva Atualizado',
+    email: 'joao_atualizado@example.com',
+    senha: 'nova_senha123',
+    tipo: 'cliente',
+  );
+
+  UsuariosRepository usuariosRepository = UsuariosRepository();
+  await usuariosRepository.atualizarUsuario(usuarioAtualizado);
+  print('Usuário atualizado com sucesso!');
+}
+
+
+2. Atualizar Item (via itens_repository.dart)
+
+Se você deseja atualizar os detalhes de um item, como o nome, preço ou descrição, você precisará de um método de atualização no repositório itens_repository.dart.
+
+Exemplo de método para atualizar um item:
+
+No arquivo itens_repository.dart:
+
+// Atualiza um item existente no banco de dados
+Future<void> atualizarItem(Item item) async {
+  await db.update(
+    'itens_pedido',
+    item.toMap(),
+    where: 'id = ?',
+    whereArgs: [item.id],
+  );
+}
+
+
+Como usar o método atualizarItem:
+
+void atualizarDadosItem() async {
+  Item itemAtualizado = Item(
+    id: 1,  // O ID do item a ser atualizado
+    nome: 'Pizza Margherita Grande',
+    preco: 30.00,
+    descricao: 'Pizza grande com queijo e manjericão',
+  );
+
+  ItemRepository itemRepository = ItemRepository();
+  await itemRepository.atualizarItem(itemAtualizado);
+  print('Item atualizado com sucesso!');
+}
+
+
+3. Atualizar Pedido (via pedidos_repository.dart)
+
+Se você deseja atualizar as informações de um pedido, como o valor total, ou outras informações associadas, você precisará de um método de atualização no repositório pedidos_repository.dart.
+
+Exemplo de método para atualizar um pedido:
+
+No arquivo pedidos_repository.dart:
+
+// Atualiza um pedido existente no banco de dados
+Future<void> atualizarPedido(Pedido pedido) async {
+  await db.update(
+    'pedidos',
+    pedido.toMap(),
+    where: 'id = ?',
+    whereArgs: [pedido.id],
+  );
+}
+
+
+Como usar o método atualizarPedido:
+
+void atualizarDadosPedido() async {
+  Pedido pedidoAtualizado = Pedido(
+    id: 1,  // O ID do pedido a ser atualizado
+    usuarioId: 1,
+    dataPedido: DateTime.now(),
+    valorTotal: 200.00,  // Novo valor total do pedido
+  );
+
+  PedidosRepository pedidosRepository = PedidosRepository();
+  await pedidosRepository.atualizarPedido(pedidoAtualizado);
+  print('Pedido atualizado com sucesso!');
+}
+
+
+Estrutura de Repositórios
+
+A estrutura do seu projeto está organizada em repositórios, o que significa que a lógica de atualização (e outras operações como inserção e deleção) está centralizada neles. Cada repositório é responsável por uma entidade (usuários, pedidos, itens), e os métodos para atualizar essas entidades estão contidos nesses repositórios.
+
+Para atualizar um usuário: Use o método atualizarUsuario no UsuariosRepository.
+
+Para atualizar um item: Use o método atualizarItem no ItemRepository.
+
+Para atualizar um pedido: Use o método atualizarPedido no PedidosRepository.
+
+Os métodos de atualização usam o método update do SQLite (db.update) para atualizar a linha correspondente no banco de dados. Isso requer um where para especificar qual linha (com base no id) deve ser atualizada.
+
+Exemplo geral de atualização:
+
+await db.update(
+  'nome_da_tabela',       // Tabela que está sendo atualizada
+  dadosMap,               // Os dados a serem atualizados, no formato de um mapa
+  where: 'id = ?',        // Condição para encontrar a linha correta (geralmente o ID)
+  whereArgs: [id],        // O valor do ID que deve ser atualizado
+);
+Isso garantirá que os dados no banco de dados sejam atualizados de forma eficaz sempre que os valores mudarem na aplicação.
+
+Além dos itens que você já tem o projeto Flutter (como item.dart, pedido.dart, usuario.dart), você pode adicionar ou utilizar diversos outros modelos e funcionalidades para melhorar o gerenciamento dos dados e a arquitetura do projeto. Dependendo das necessidades do seu projeto, você pode adicionar os seguintes tipos de arquivos e funcionalidades:
+
+--------------
+
+
+1. Autenticação e Sessão de Usuário
+
+Modelos e Repositórios Relacionados à Autenticação: Se o seu projeto envolve login e autenticação, você pode adicionar um sistema de autenticação, incluindo gerenciamento de tokens, senhas criptografadas, e manter a sessão do usuário.
+
+AuthRepository: Um repositório responsável por login, logout, e verificação de sessão de usuário.
+
+Sessão do Usuário: Mantenha o estado de sessão do usuário usando SharedPreferences ou SecureStorage para salvar tokens de autenticação localmente.
+
+Exemplo de repositório de autenticação:
+
+class AuthRepository {
+  Future<bool> login(String email, String senha) async {
+    // Lógica de autenticação (verificação com banco de dados)
+    // Se o login for bem-sucedido, salve a sessão do usuário
+  }
+
+  Future<void> logout() async {
+    // Limpar a sessão do usuário
+  }
+
+  Future<bool> isLoggedIn() async {
+    // Verificar se o usuário está logado
+  }
+}
+
+
+2. Gestão de Inventário/Estoque
+
+Modelo de Estoque: Um modelo e repositório para gerenciar o estoque dos itens. Isso é útil se o projeto está relacionado a pedidos e cardápios, e é necessário controlar a quantidade de itens disponíveis.
+
+StockRepository: Responsável por gerenciar a quantidade de cada item no estoque e controlar quando um item é adicionado ou removido.
+
+Exemplo de stock.dart:
+
+class Stock {
+  final int id;
+  final int itemId;
+  final int quantidade;
+
+  Stock({
+    required this.id,
+    required this.itemId,
+    required this.quantidade,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'item_id': itemId,
+      'quantidade': quantidade,
+    };
+  }
+}
+
+
+3. Histórico de Pedidos ou Operações
+
+Histórico de Pedidos: Um modelo e repositório para manter um registro de todos os pedidos feitos, incluindo status do pedido (concluído, pendente, cancelado).
+
+OrderHistoryRepository: Armazena o histórico de todas as operações realizadas (como a criação, alteração ou cancelamento de pedidos).
+
+Exemplo de historico_pedido.dart:
+
+class HistoricoPedido {
+  final int id;
+  final int pedidoId;
+  final DateTime dataOperacao;
+  final String operacao;
+
+  HistoricoPedido({
+    required this.id,
+    required this.pedidoId,
+    required this.dataOperacao,
+    required this.operacao,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'pedido_id': pedidoId,
+      'data_operacao': dataOperacao.toIso8601String(),
+      'operacao': operacao,
+    };
+  }
+}
+
+
+4. Sistema de Pagamento
+Modelo de Pagamento: Um modelo para gerenciar os dados relacionados ao pagamento, como valor, método de pagamento (cartão, boleto, etc.), e status (pago, pendente).
+PaymentRepository: Lida com a inserção, consulta e atualização de dados de pagamentos relacionados a pedidos.
+Exemplo de payment.dart:
+
+class Pagamento {
+  final int id;
+  final int pedidoId;
+  final double valor;
+  final String metodo;
+  final bool statusPago;
+
+  Pagamento({
+    required this.id,
+    required this.pedidoId,
+    required this.valor,
+    required this.metodo,
+    required this.statusPago,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'pedido_id': pedidoId,
+      'valor': valor,
+      'metodo': metodo,
+      'status_pago': statusPago ? 1 : 0,
+    };
+  }
+}
+
+
+5. Notificações
+
+Notificações de Pedidos: Um sistema de notificações que alerta o usuário sobre atualizações em pedidos ou eventos importantes, como a conclusão de um pedido ou o pagamento confirmado.
+
+NotificationService: Um serviço para enviar e receber notificações.
+
+Exemplo de notification.dart:
+
+class Notificacao {
+  final int id;
+  final String mensagem;
+  final DateTime dataHora;
+
+  Notificacao({
+    required this.id,
+    required this.mensagem,
+    required this.dataHora,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'mensagem': mensagem,
+      'data_hora': dataHora.toIso8601String(),
+    };
+  }
+}
+
+
+6. Gerenciamento de Endereço (caso seja necessário)
+
+Modelo de Endereço: Um modelo para gerenciar o endereço de entrega ou cobrança relacionado a um pedido ou a um usuário.
+
+AddressRepository: Repositório responsável por salvar, buscar e atualizar endereços dos usuários.
+
+Exemplo de address.dart:
+
+class Endereco {
+  final int id;
+  final int usuarioId;
+  final String rua;
+  final String cidade;
+  final String cep;
+
+  Endereco({
+    required this.id,
+    required this.usuarioId,
+    required this.rua,
+    required this.cidade,
+    required this.cep,
+  });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'usuario_id': usuarioId,
+      'rua': rua,
+      'cidade': cidade,
+      'cep': cep,
+    };
+  }
+}
+
+
+7. Segurança e Criptografia
+
+Armazenamento Seguro: Para garantir que as senhas dos usuários e informações sensíveis estejam protegidas, use pacotes como flutter_secure_storage ou criptografia manualmente com bibliotecas como encrypt.
+
+Exemplo de armazenamento seguro com flutter_secure_storage:
+
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+final secureStorage = FlutterSecureStorage();
+
+// Salvar senha
+await secureStorage.write(key: 'senha', value: 'senha_secreta');
+
+// Recuperar senha
+String? senha = await secureStorage.read(key: 'senha');
+
+
+8. Relatórios e Estatísticas
+
+Relatórios: Gere relatórios e resumos de pedidos, itens mais vendidos, total de vendas, etc.
+
+RelatorioRepository: Um repositório que pode agregar dados e gerar relatórios, como os pedidos realizados em um período específico.
+
+Exemplo de geração de relatórios:
+
+class RelatorioRepository {
+  Future<double> totalVendasNoMes(int mes, int ano) async {
+    final db = await DB.instance.database;
+    var resultado = await db.rawQuery('SELECT SUM(valor_total) FROM pedidos WHERE strftime("%m", data_pedido) = ? AND strftime("%Y", data_pedido) = ?', [mes.toString(), ano.toString()]);
+    return resultado.isNotEmpty ? resultado.first['SUM(valor_total)'] : 0.0;
+  }
+}
+
+Conclusão
+Além dos itens que você já possui, você pode adicionar novas funcionalidades como gerenciamento de usuários, autenticação, estoque, histórico, pagamentos, notificações e relatórios. Tudo isso ajuda a tornar o seu sistema mais robusto e completo. As sugestões fornecidas são apenas exemplos; dependendo da complexidade do seu projeto, você pode ajustar ou adicionar mais funcionalidades específicas para o seu caso.
