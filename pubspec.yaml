@@ -20,8 +20,7 @@ dependencies:
   path_provider: ^2.0.2
   sqflite: ^2.0.0+3
   fl_chart: any
-  drift: ^2.0.1
-  drift_sqflite: ^1.0.0 # Se for usar em conjunto com o sqflite
+ 
 
 dev_dependencies:
   flutter_test:
