@@ -28,15 +28,15 @@ class DetalhesPedidoView extends StatelessWidget {
           children: [
             Text(
               'Pedido #${pedido.id}',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 10),
-            Text('Usuário ID: ${pedido.usuarioId}', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
-            Text('Data: ${pedido.dataPedido.toIso8601String()}', style: TextStyle(fontSize: 18)),
-            SizedBox(height: 10),
-            Text('Valor Total: R\$ ${pedido.valorTotal.toStringAsFixed(2)}', style: TextStyle(fontSize: 18, color: Colors.green)),
-            SizedBox(height: 20),
+            const SizedBox(height: 10),
+            Text('Usuário ID: ${pedido.usuarioId}', style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
+            Text('Data: ${pedido.dataPedido.toIso8601String()}', style: const TextStyle(fontSize: 18)),
+            const SizedBox(height: 10),
+            Text('Valor Total: R\$ ${pedido.valorTotal.toStringAsFixed(2)}', style: const TextStyle(fontSize: 18, color: Colors.green)),
+            const SizedBox(height: 20),
 
             // Botão para deletar o pedido
             ElevatedButton(
@@ -47,7 +47,7 @@ class DetalhesPedidoView extends StatelessWidget {
               onPressed: () {
                 _exibirConfirmacaoExclusao(context);
               },
-              child: Text('Excluir Pedido'),
+              child: const Text('Excluir Pedido'),
             ),
           ],
         ),
@@ -61,14 +61,14 @@ class DetalhesPedidoView extends StatelessWidget {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Excluir Pedido'),
+          title: const Text('Excluir Pedido'),
           content: Text('Você tem certeza que deseja excluir o pedido #${pedido.id}?'),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Fecha o diálogo sem excluir
               },
-              child: Text('Cancelar'),
+              child: const Text('Cancelar'),
             ),
             TextButton(
               onPressed: () async {
@@ -82,7 +82,7 @@ class DetalhesPedidoView extends StatelessWidget {
                 // Chama o callback para recarregar os pedidos na lista
                 onDelete();
               },
-              child: Text('Excluir'),
+              child: const Text('Excluir'),
             ),
           ],
         );

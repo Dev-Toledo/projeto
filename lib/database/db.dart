@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart'; // Para kIsWeb e defaultTargetPlatform
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Para suporte a desktop
-import 'package:path/path.dart';
+import 'package:path/path.dart'; // Para obter o caminho no dispositivo móvel
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
@@ -17,23 +16,19 @@ class DB {
 
   // Getter assíncrono para acessar o banco de dados
   Future<Database> get database async {
+    if (kIsWeb) {
+      throw Exception('SQLite não é suportado na Web. Considere usar IndexedDB ou Firebase.');
+    }
+
     if (_database != null) return _database!;
+
     _database = await _initDatabase();
     return _database!;
   }
 
-  // Método para inicializar o banco de dados e definir as tabelas
+  // Método para inicializar o banco de dados e definir as tabelas (somente mobile)
   Future<Database> _initDatabase() async {
-    // Inicializa o databaseFactory para plataformas desktop
-    if (!kIsWeb &&
-        (defaultTargetPlatform == TargetPlatform.windows ||
-            defaultTargetPlatform == TargetPlatform.linux ||
-            defaultTargetPlatform == TargetPlatform.macOS)) {
-      sqfliteFfiInit(); // Inicializa o FFI
-      databaseFactory = databaseFactoryFfi; // Define o databaseFactory para desktop
-    }
-
-    // Obtém o caminho do banco de dados
+    // Obtém o caminho do banco de dados para Android/iOS
     String path = join(await getDatabasesPath(), 'projeto_restaurante.db');
 
     // Abre ou cria o banco de dados
