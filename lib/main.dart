@@ -56,6 +56,3 @@ class MainApp extends StatelessWidget {
     );
   }
 }
-
-//git config --global user.name "Nome Completo"
-//git config --global user.email "e-mail@dominio.com"
