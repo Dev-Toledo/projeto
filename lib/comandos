@@ -3,3 +3,11 @@
 
 flutter clean
 flutter pub get
+
+flutter pub outdated
+flutter pub upgrade --major-versions
+
+git checkout main
+git merge origin/main
+
+flutter upgrade

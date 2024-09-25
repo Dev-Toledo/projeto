@@ -3,7 +3,11 @@ import 'package:projeto/view/login_view.dart';
 import 'package:projeto/view/itens_view.dart';
 import 'package:projeto/view/pedidos_view.dart';
 import 'package:projeto/view/cadastro_view.dart';
+<<<<<<< HEAD
 import 'package:projeto/view/splash_view.dart'; // Adicione a importação da tela de carregamento
+=======
+import 'package:projeto/view/splash_view.dart'; // Importa a tela de splash
+>>>>>>> origin/main
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Import necessário para desktop
@@ -20,28 +24,25 @@ void main() {
   }
 
   runApp(DevicePreview(
-    enabled: !kReleaseMode,
-    builder: (context) => MainApp(),
+    enabled: !kReleaseMode, // Desativa o DevicePreview em produção
+    builder: (context) => const MainApp(), // Defina const para widgets imutáveis
   ));
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  const MainApp({super.key}); // Utiliza o super parameter para a key
 
   @override
   Widget build(BuildContext context) {
     var textTheme = const TextTheme(
-      bodyLarge: TextStyle(
-          color: Colors.black, fontSize: 16), // bodyLarge é o texto principal
-      bodyMedium: TextStyle(
-          color: Colors.black,
-          fontSize: 14), // bodyMedium para texto secundário
+      bodyLarge: TextStyle(color: Colors.black, fontSize: 16), // bodyLarge é o texto principal
+      bodyMedium: TextStyle(color: Colors.black, fontSize: 14), // bodyMedium para texto secundário
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      initialRoute: 'splash', // Define a tela inicial como a SplashScreen
+      initialRoute: 'login', // Define a splash view como rota inicial
       routes: {
-        'splash': (context) => const SplashView(), // Rota para a SplashScreen
+        'splash': (context) => const SplashView(),
         'login': (context) => const LoginView(),
         'itens': (context) => const ItensView(),
         'pedidos': (context) => const PedidosView(),
@@ -58,3 +59,9 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+
+
+
+
+
+

@@ -34,19 +34,24 @@ class _SplashViewState extends State<SplashView>
         reverse: true); // Balança de um lado para o outro
   }
 
-  // Método para inicializar os elementos do app (como o banco de dados)
+  // Método para inicializar o app
   Future<void> _inicializarApp() async {
     try {
+      print("Iniciando inicialização do banco de dados...");
       await DB.instance.database; // Inicializa o banco de dados
+
       // Simula um tempo de carregamento
       await Future.delayed(const Duration(seconds: 2));
 
+      print("Banco de dados inicializado com sucesso.");
       // Após a inicialização, navega para a tela de login
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (context) => const LoginView()),
       );
-    } catch (e) {
+    } catch (e, stacktrace) {
+      print("Erro ao inicializar a aplicação: $e");
+      print("Stacktrace: $stacktrace");
       _mostrarErroCarregamento(e);
     }
   }
@@ -81,7 +86,6 @@ class _SplashViewState extends State<SplashView>
               ),
             ),
           ),
-          // Conteúdo da splash view
           Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +106,7 @@ class _SplashViewState extends State<SplashView>
                               blurRadius:
                                   20, // Aumente ou diminua o raio da sombra
                               spreadRadius:
-                                  9, // Aumenta o efeito de expansão da sombra
+                                  5, // Aumenta o efeito de expansão da sombra
                             ),
                           ],
                         ),

@@ -30,7 +30,7 @@ class _CadastroViewState extends State<CadastroView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Cadastro'),
+        title: const Text('Cadastro'),
         backgroundColor: Colors.orange,
       ),
       body: Padding(
@@ -43,7 +43,7 @@ class _CadastroViewState extends State<CadastroView> {
               // Campo Nome
               TextFormField(
                 controller: nomeController,
-                decoration: InputDecoration(labelText: 'Nome'),
+                decoration: const InputDecoration(labelText: 'Nome'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira seu nome';
@@ -51,12 +51,12 @@ class _CadastroViewState extends State<CadastroView> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               
               // Campo E-mail
               TextFormField(
                 controller: emailController,
-                decoration: InputDecoration(labelText: 'E-mail'),
+                decoration: const InputDecoration(labelText: 'E-mail'),
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
@@ -68,13 +68,13 @@ class _CadastroViewState extends State<CadastroView> {
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               
               // Campo Senha
               TextFormField(
                 controller: senhaController,
                 obscureText: true,
-                decoration: InputDecoration(labelText: 'Senha'),
+                decoration: const InputDecoration(labelText: 'Senha'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor, insira sua senha';
@@ -85,13 +85,13 @@ class _CadastroViewState extends State<CadastroView> {
                   return null;
                 },
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               
               // Botão Cadastrar
               Center(
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
+                    minimumSize: const Size(double.infinity, 50),
                     backgroundColor: Colors.orange,
                     foregroundColor: Colors.white,
                   ),
@@ -109,21 +109,25 @@ class _CadastroViewState extends State<CadastroView> {
                         // Tenta cadastrar o usuário no repositório
                         await usuariosRepository.criarUsuario(novoUsuario);
 
+                        if (!mounted) return; // Verifica se o widget ainda está montado
+
                         // Exibe uma mensagem de sucesso e volta para a tela de login
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Cadastro realizado com sucesso!')),
+                          const SnackBar(content: Text('Cadastro realizado com sucesso!')),
                         );
 
                         Navigator.pop(context); // Volta para a tela anterior (login)
                       } catch (e) {
                         // Exibe uma mensagem de erro caso o e-mail já esteja cadastrado
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Erro ao cadastrar: ${e.toString()}')),
-                        );
+                        if (mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Erro ao cadastrar: ${e.toString()}')),
+                          );
+                        }
                       }
                     }
                   },
-                  child: Text('Cadastrar'),
+                  child: const Text('Cadastrar'),
                 ),
               ),
             ],

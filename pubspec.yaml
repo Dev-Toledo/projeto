@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  path: ^1.8.0  # Adiciona a dependência do pacote path
+  crypto: ^3.0.1  # Adiciona a dependência do pacote 'crypto'
   device_preview: ^1.2.0
   intl: any
   provider: 6.1.2
@@ -17,8 +19,8 @@ dependencies:
   hive_flutter: ^1.1.0
   path_provider: ^2.0.2
   sqflite: ^2.0.0+3
-  sqflite_common_ffi: ^2.3.3
-  fl_chart: ^0.69.0
+  fl_chart: any
+ 
 
 dev_dependencies:
   flutter_test:
