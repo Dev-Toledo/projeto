@@ -17,7 +17,8 @@ class DB {
   // Getter assíncrono para acessar o banco de dados
   Future<Database> get database async {
     if (kIsWeb) {
-      throw Exception('SQLite não é suportado na Web. Considere usar IndexedDB ou Firebase.');
+      throw Exception(
+          'SQLite não é suportado na Web. Considere usar IndexedDB ou Firebase.');
     }
 
     if (_database != null) return _database!;
@@ -29,12 +30,12 @@ class DB {
   // Método para inicializar o banco de dados e definir as tabelas (somente mobile)
   Future<Database> _initDatabase() async {
     // Obtém o caminho do banco de dados para Android/iOS
-    String path = join(await getDatabasesPath(), 'projeto_restaurante.db');
+    String path = join(await getDatabasesPath(), 'projeto.db');
 
     // Abre ou cria o banco de dados
     return await openDatabase(
-      path,
-      version: 2, // Atualizamos para a versão 2
+      join(await getDatabasesPath(), 'projeto.db'),
+      version: 3, // Atualizamos para a versão 2
       onCreate: _onCreate,
       onUpgrade: _onUpgrade, // Adicionamos suporte para upgrade
     );
