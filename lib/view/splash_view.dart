@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:projeto/database/db.dart'; // Certifique-se de importar a classe do banco de dados
 import 'package:projeto/view/login_view.dart'; // Importa a tela de login
 
+
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
 
@@ -97,12 +98,12 @@ class _SplashViewState extends State<SplashView>
                       angle: _animation.value,
                       child: Container(
                         decoration: BoxDecoration(
-                          shape: BoxShape.circle, // Define o formato da sombra
+                          shape: BoxShape.circle,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.white.withOpacity(0.7), // Cor branca com transparência
-                              blurRadius: 20, // Aumente ou diminua o raio da sombra
-                              spreadRadius: 5, // Aumenta o efeito de expansão da sombra
+                              color: Colors.white.withOpacity(0.7),
+                              blurRadius: 20,
+                              spreadRadius: 5,
                             ),
                           ],
                         ),

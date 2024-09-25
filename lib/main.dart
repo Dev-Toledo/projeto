@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/view/login_view.dart';
+import 'package:projeto/view/admin_view.dart';
 import 'package:projeto/view/itens_view.dart';
 import 'package:projeto/view/pedidos_view.dart';
 import 'package:projeto/view/cadastro_view.dart';
 import 'package:projeto/view/splash_view.dart'; // Importa a tela de splash
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
+
 //import 'package:sqflite_common_ffi/sqflite_ffi.dart'; // Import necessário para desktop
 
 void main() {
@@ -47,6 +49,7 @@ class MainApp extends StatelessWidget {
         'itens': (context) => const ItensView(),
         'pedidos': (context) => const PedidosView(),
         'cadastro': (context) => const CadastroView(),
+        'admin': (context) => const AdminView(),
       },
       builder: DevicePreview.appBuilder,
       theme: ThemeData(

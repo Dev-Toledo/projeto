@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart'; // Para kIsWeb e defaultTargetPlatform
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart'; // Para obter o caminho no dispositivo móvel
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
+import 'dart:io'; // Para trabalhar com diretórios
 
 class DB {
   // Construtor privado para singleton
@@ -16,11 +16,6 @@ class DB {
 
   // Getter assíncrono para acessar o banco de dados
   Future<Database> get database async {
-    if (kIsWeb) {
-      throw Exception(
-          'SQLite não é suportado na Web. Considere usar IndexedDB ou Firebase.');
-    }
-
     if (_database != null) return _database!;
 
     _database = await _initDatabase();
@@ -29,15 +24,24 @@ class DB {
 
   // Método para inicializar o banco de dados e definir as tabelas (somente mobile)
   Future<Database> _initDatabase() async {
-    // Obtém o caminho do banco de dados para Android/iOS
-    String path = join(await getDatabasesPath(), 'projeto.db');
+    // Caminho para o diretório 'database'
+    final dbPath = await getDatabasesPath();
+    final directory = Directory(join(dbPath, 'database'));
+    
+    // Verifica se o diretório 'database' existe e cria se não existir
+    if (!await directory.exists()) {
+      await directory.create(recursive: true);
+    }
+
+    // Obtém o caminho do banco de dados no diretório 'database'
+    String path = join(directory.path, 'projeto.db');
 
     // Abre ou cria o banco de dados
     return await openDatabase(
-      join(await getDatabasesPath(), 'projeto.db'),
-      version: 3, // Atualizamos para a versão 2
+      path,
+      version: 3, // Versão 3
       onCreate: _onCreate,
-      onUpgrade: _onUpgrade, // Adicionamos suporte para upgrade
+      onUpgrade: _onUpgrade, // Adiciona suporte para upgrade
     );
   }
 
@@ -146,3 +150,4 @@ class DB {
     );
   ''';
 }
+
