@@ -1,8 +1,8 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart'; // Para obter o caminho no dispositivo móvel
-import 'package:crypto/crypto.dart';
-import 'dart:convert';
 import 'dart:io'; // Para trabalhar com diretórios
+import 'dart:convert'; // Para usar utf8.encode
+import 'package:crypto/crypto.dart'; // Para usar sha256
 
 class DB {
   // Construtor privado para singleton
@@ -27,7 +27,7 @@ class DB {
     // Caminho para o diretório 'database'
     final dbPath = await getDatabasesPath();
     final directory = Directory(join(dbPath, 'database'));
-    
+
     // Verifica se o diretório 'database' existe e cria se não existir
     if (!await directory.exists()) {
       await directory.create(recursive: true);
@@ -39,7 +39,7 @@ class DB {
     // Abre ou cria o banco de dados
     return await openDatabase(
       path,
-      version: 3, // Versão 3
+      version: 3, // Versão do banco de dados
       onCreate: _onCreate,
       onUpgrade: _onUpgrade, // Adiciona suporte para upgrade
     );
@@ -98,10 +98,15 @@ class DB {
     });
   }
 
-  // Função para hashear a senha (usando SHA-256)
+// Função para hashear a senha (usando SHA-256)
   String hashPassword(String password) {
+    // Converte a senha em bytes utilizando utf8
     var bytes = utf8.encode(password);
+
+    // Gera o hash utilizando SHA-256
     var digest = sha256.convert(bytes);
+
+    // Retorna o hash em formato de string
     return digest.toString();
   }
 
@@ -150,4 +155,3 @@ class DB {
     );
   ''';
 }
-

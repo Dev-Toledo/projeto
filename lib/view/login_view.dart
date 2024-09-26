@@ -17,6 +17,7 @@ class _LoginViewState extends State<LoginView> {
   final txtValor1 = TextEditingController();
   final txtValor2 = TextEditingController();
 
+  bool _rememberMe = false;
   bool _obscureText = true;
 
   @override
@@ -44,7 +45,8 @@ class _LoginViewState extends State<LoginView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('Login', style: TextStyle(fontSize: 25, color: primaryColor)),
+                    Text('Login',
+                        style: TextStyle(fontSize: 25, color: primaryColor)),
                   ],
                 ),
                 const SizedBox(height: 5),
@@ -100,7 +102,54 @@ class _LoginViewState extends State<LoginView> {
                   },
                 ),
                 const SizedBox(height: 10),
+                SizedBox(height: 10),
 
+                // Lembre de mim e Esqueci a senha
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        // Checkbox Lembre de mim
+                        Checkbox(
+                          value: _rememberMe,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _rememberMe = value!;
+                            });
+                          },
+                          activeColor: Colors.blue,
+                          checkColor: Colors.white,
+                          fillColor: WidgetStateProperty.resolveWith((states) {
+                            return states.contains(WidgetState.selected)
+                                ? Colors.blue
+                                : null;
+                          }),
+                        ),
+                        Text('Lembre de mim'),
+                      ],
+                    ),
+
+                    SizedBox(width: 30),
+
+                    // TextButton Esqueci a senha
+                    TextButton(
+                      onPressed: () {
+                        // Código para tratar o clique em "Esqueci minha senha"
+                      },
+                      child: Text(
+                        "Esqueci a senha",
+                        style: TextStyle(
+                          color: Colors.blue,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 40),
                 // Botão de Login
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -121,7 +170,8 @@ class _LoginViewState extends State<LoginView> {
                         Navigator.pushNamed(context, 'admin');
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Login ou senha inválidos')),
+                          const SnackBar(
+                              content: Text('Login ou senha inválidos')),
                         );
                       }
                     }
