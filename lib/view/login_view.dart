@@ -102,9 +102,9 @@ class _LoginViewState extends State<LoginView> {
                   },
                 ),
                 const SizedBox(height: 10),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-                // Lembre de mim e Esqueci a senha
+                // Lembre de mim
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
@@ -121,26 +121,22 @@ class _LoginViewState extends State<LoginView> {
                           },
                           activeColor: Colors.blue,
                           checkColor: Colors.white,
-                          fillColor: WidgetStateProperty.resolveWith((states) {
-                            return states.contains(WidgetState.selected)
-                                ? Colors.blue
-                                : null;
-                          }),
                         ),
-                        Text('Lembre de mim'),
+                        const Text('Lembre de mim'),
                       ],
                     ),
-
-                    SizedBox(width: 30),
+                    const SizedBox(width: 30),
 
                     // TextButton Esqueci a senha
                     TextButton(
                       onPressed: () {
-                        // Código para tratar o clique em "Esqueci minha senha"
+                        // Redireciona para a tela de "Esqueci a senha"
+                        Navigator.pushNamed(context, 'senha');
                       },
-                      child: Text(
+                      child: const Text(
                         "Esqueci a senha",
                         style: TextStyle(
+                          fontSize: 10,
                           color: Colors.blue,
                           decoration: TextDecoration.underline,
                         ),
@@ -148,8 +144,8 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
+                const SizedBox(height: 40),
 
-                SizedBox(height: 40),
                 // Botão de Login
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
@@ -194,8 +190,7 @@ class _LoginViewState extends State<LoginView> {
                   },
                   child: const Text('Cadastrar'),
                 ),
-
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
 
                 // Botão pequeno para ver itens sem login
                 TextButton(
@@ -206,6 +201,7 @@ class _LoginViewState extends State<LoginView> {
                   child: const Text(
                     'Ver Itens sem Login',
                     style: TextStyle(
+                      fontSize: 10,
                       color: Colors.blue,
                       decoration: TextDecoration.underline,
                     ),

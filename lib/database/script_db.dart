@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 
 
+
 class ScriptDB {
   // Método para criar as tabelas
   static Future<void> createTables(Database db) async {

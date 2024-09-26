@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projeto/view/login_view.dart';
+import 'package:projeto/view/password_view.dart';
 import 'package:projeto/view/admin_view.dart';
 import 'package:projeto/view/itens_view.dart';
 import 'package:projeto/view/pedidos_view.dart';
@@ -50,6 +51,7 @@ class MainApp extends StatelessWidget {
         'pedidos': (context) => const PedidosView(),
         'cadastro': (context) => const CadastroView(),
         'admin': (context) => const AdminView(),
+        'senha': (context) => const ForgotPasswordView(),
       },
       builder: DevicePreview.appBuilder,
       theme: ThemeData(
