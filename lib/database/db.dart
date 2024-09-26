@@ -1,8 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart'; // Para obter o caminho no dispositivo móvel
 import 'dart:io'; // Para trabalhar com diretórios
-import 'dart:convert'; // Para usar utf8.encode
-import 'package:crypto/crypto.dart'; // Para usar sha256
+import 'package:projeto/database/script_db.dart';
 
 class DB {
   // Construtor privado para singleton
@@ -22,7 +21,7 @@ class DB {
     return _database!;
   }
 
-  // Método para inicializar o banco de dados e definir as tabelas (somente mobile)
+  // Método para inicializar o banco de dados
   Future<Database> _initDatabase() async {
     // Caminho para o diretório 'database'
     final dbPath = await getDatabasesPath();
@@ -40,118 +39,18 @@ class DB {
     return await openDatabase(
       path,
       version: 3, // Versão do banco de dados
-      onCreate: _onCreate,
-      onUpgrade: _onUpgrade, // Adiciona suporte para upgrade
+      onCreate: (db, version) async {
+        // Quando o banco for criado, ele chamará o script_db.dart para criar as tabelas e registros
+        await ScriptDB.createTables(db);
+        await ScriptDB.insertInitialData(db);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        // Aqui você pode lidar com upgrades futuros
+        if (oldVersion < 3) {
+          await ScriptDB.createTables(db);
+          await ScriptDB.insertInitialData(db);
+        }
+      },
     );
   }
-
-  // Método para criar as tabelas
-  Future<void> _onCreate(Database db, int version) async {
-    await db.execute(_usuarios); // Cria a tabela 'usuarios'
-    await db.execute(_pedidos); // Cria a tabela 'pedidos'
-    await db.execute(_cardapio); // Cria a tabela 'cardapio'
-    await db.execute(_itensPedido); // Cria a tabela 'itens_pedido'
-
-    // Inserir dados iniciais na tabela 'usuarios'
-    await db.insert('usuarios', {
-      'nome': 'Administrador',
-      'email': 'admin@podrao.com',
-      'senha': hashPassword('123456'), // Armazenando a senha com hash
-      'tipo': 'admin',
-    });
-
-    await db.insert('usuarios', {
-      'nome': 'Cliente Teste',
-      'email': 'cliente@podrao.com',
-      'senha': hashPassword('123456'),
-      'tipo': 'cliente',
-    });
-
-    // Inserir dados iniciais no cardápio
-    await _inserirDadosIniciaisCardapio(db);
-  }
-
-  // Método que lida com upgrades no banco de dados
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    if (oldVersion < 2) {
-      // Caso atualize da versão 1 para 2, crie a tabela de cardápio
-      await db.execute(_cardapio);
-      await db.execute(_itensPedido);
-
-      // Inserir dados iniciais no cardápio
-      await _inserirDadosIniciaisCardapio(db);
-    }
-  }
-
-  // Método para inserir dados iniciais no cardápio
-  Future<void> _inserirDadosIniciaisCardapio(Database db) async {
-    await db.insert('cardapio', {
-      'nome': 'X-Burguer',
-      'descricao': 'Hambúrguer com queijo, alface, tomate e maionese.',
-      'preco': 12.00,
-    });
-
-    await db.insert('cardapio', {
-      'nome': 'Coca-Cola',
-      'descricao': 'Refrigerante lata 350ml',
-      'preco': 5.00,
-    });
-  }
-
-// Função para hashear a senha (usando SHA-256)
-  String hashPassword(String password) {
-    // Converte a senha em bytes utilizando utf8
-    var bytes = utf8.encode(password);
-
-    // Gera o hash utilizando SHA-256
-    var digest = sha256.convert(bytes);
-
-    // Retorna o hash em formato de string
-    return digest.toString();
-  }
-
-  // Definição da tabela 'usuarios' que armazena os dados dos usuários
-  String get _usuarios => '''
-    CREATE TABLE usuarios (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome TEXT NOT NULL,
-      email TEXT NOT NULL UNIQUE,
-      senha TEXT NOT NULL,
-      tipo TEXT NOT NULL
-    );
-  ''';
-
-  // Definição da tabela 'pedidos' que armazena os dados dos pedidos
-  String get _pedidos => '''
-    CREATE TABLE pedidos (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      usuario_id INTEGER,
-      data_pedido TEXT,
-      valor_total REAL,
-      FOREIGN KEY(usuario_id) REFERENCES usuarios(id)
-    );
-  ''';
-
-  // Definição da tabela 'cardapio' que armazena os itens do cardápio
-  String get _cardapio => '''
-    CREATE TABLE cardapio (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      nome TEXT NOT NULL,
-      descricao TEXT NOT NULL,
-      preco REAL NOT NULL
-    );
-  ''';
-
-  // Definição da tabela 'itens_pedido' que armazena os itens de cada pedido
-  String get _itensPedido => '''
-    CREATE TABLE itens_pedido (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      pedido_id INTEGER,
-      cardapio_id INTEGER,
-      quantidade INTEGER,
-      preco_unitario REAL,
-      FOREIGN KEY(pedido_id) REFERENCES pedidos(id),
-      FOREIGN KEY(cardapio_id) REFERENCES cardapio(id)
-    );
-  ''';
 }
