@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:projeto/models/item.dart';
 import 'package:projeto/repositories/itens_repository.dart';
@@ -86,6 +84,10 @@ class _ItensViewState extends State<ItensView> {
               Text(item.descricao),
               SizedBox(height: 10),
               Text('Preço: R\$ ${item.preco.toStringAsFixed(2)}'),
+              SizedBox(height: 10),
+              Text('Categoria: ${item.categoria}'),
+              SizedBox(height: 10),
+              Text('Disponível: ${item.disponivel ? 'Sim' : 'Não'}'),
             ],
           ),
           actions: [
