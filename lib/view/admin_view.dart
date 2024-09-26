@@ -52,7 +52,23 @@ class _AdminViewState extends State<AdminView> {
       );
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro ao conectar ao banco de dados: $e')),
+        SnackBar(
+          content: RichText(
+            text: TextSpan(
+              children: [
+                TextSpan(
+                  text: 'Erro ao verificar o banco de dados: ',
+                  style: TextStyle(
+                      color: Colors.red), // Primeira parte em vermelho
+                ),
+                TextSpan(
+                  text: '$e', // Aqui você pode incluir o erro
+                  style: TextStyle(color: Colors.blue), // Segunda parte em azul
+                ),
+              ],
+            ),
+          ),
+        ),
       );
     }
   }
