@@ -1,3 +1,5 @@
+// lib/view/itens_view.dart
+
 import 'package:flutter/material.dart';
 import 'package:projeto/models/item.dart';
 import 'package:projeto/repositories/itens_repository.dart';
@@ -17,7 +19,7 @@ class _ItensViewState extends State<ItensView> {
   void initState() {
     super.initState();
     itemRepository = ItemRepository();
-    itensFuture = itemRepository.buscarItens(); // Busca todos os itens do cardápio
+    itensFuture = itemRepository.buscarItens(); // Busca todos os itens da lista
   }
 
   @override
@@ -54,7 +56,6 @@ class _ItensViewState extends State<ItensView> {
                   subtitle: Text('R\$ ${item.preco.toStringAsFixed(2)}'),
                   trailing: Icon(Icons.add_shopping_cart),
                   onTap: () {
-                    // Ação ao clicar no item, se necessário
                     _exibirDetalhesItem(context, item);
                   },
                 ),
@@ -66,7 +67,6 @@ class _ItensViewState extends State<ItensView> {
     );
   }
 
-  // Método para exibir os detalhes de um item em um diálogo
   void _exibirDetalhesItem(BuildContext context, Item item) {
     showDialog(
       context: context,
@@ -78,16 +78,12 @@ class _ItensViewState extends State<ItensView> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               item.imagem.isNotEmpty 
-                  ? Image.asset(item.imagem) // Exibe a imagem do item, se existir
-                  : Icon(Icons.fastfood), // Ícone padrão se não houver imagem
+                  ? Image.asset(item.imagem)
+                  : Icon(Icons.fastfood),
               SizedBox(height: 10),
               Text(item.descricao),
               SizedBox(height: 10),
               Text('Preço: R\$ ${item.preco.toStringAsFixed(2)}'),
-              SizedBox(height: 10),
-              Text('Categoria: ${item.categoria}'),
-              SizedBox(height: 10),
-              Text('Disponível: ${item.disponivel ? 'Sim' : 'Não'}'),
             ],
           ),
           actions: [

@@ -163,7 +163,7 @@ class _LoginViewState extends State<LoginView> {
                       // Verifica se o login é do administrador (usuário: admin, senha: 123456)
                       if (username == 'admin' && password == '123456') {
                         // Redireciona para a tela de admin
-                        Navigator.pushNamed(context, 'admin');
+                        Navigator.pushNamed(context, 'itens');
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
